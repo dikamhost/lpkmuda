@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class AppAuth
+class Appauth
 {
     public function login($user, $pass)
     {
