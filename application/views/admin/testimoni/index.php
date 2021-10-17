@@ -129,7 +129,11 @@
             {
                "data": "tst_id",
                "render": function(data, type, row, meta) {
-                  var btn = `<img src="<?= STORAGEPATH ?>/testimoni/` + row.tst_image + `" style="max-width: 300px; max-height: 200px;">`;
+                  var img = '/no-image.jpg';
+                  if (row.tst_image) {
+                     img = `/testimoni/` + row.tst_image;
+                  }
+                  var btn = `<img src="<?= STORAGEPATH ?>` + img + `" style="max-width: 300px; max-height: 200px;">`;
                   return btn;
                },
                className: "text-center",
