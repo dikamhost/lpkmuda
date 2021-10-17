@@ -51,6 +51,7 @@ class M_beranda extends CI_Model
          ->where('kjr_locked', 0)
          ->where('kjr_deleted_at', null)
          ->order_by('kjr_created_at', 'desc')
+         ->join('system_users b', 'a.kjr_pemateri=b.usr_id')
          ->get('app_kejuruan a')->result_array();
       return $data;
    }

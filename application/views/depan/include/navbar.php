@@ -21,9 +21,9 @@
                <a class="nav-link" href="<?= base_url() ?>#kontak"><i class="fas fa-user-circle"></i> Kontak</a>
             </li>
          </ul>
-         <form class="form-inline my-2 my-lg-0">
-            <div class="btn-group" role="group" aria-label="Basic example">
-               <input class="form-control" type="search" placeholder="Cari" aria-label="Search">
+         <form class="form-inline my-2 my-lg-0" action="<?= base_url('cari') ?>">
+            <div class="btn-group" role="group" aria-label="Cari">
+               <input name="key" class="form-control" type="search" placeholder="Cari" aria-label="Search">
                <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
             </div>
          </form>

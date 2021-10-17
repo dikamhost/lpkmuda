@@ -24,6 +24,7 @@
    <?php $this->load->view('depan/include/navbar') ?>
    <?php $this->load->view($page) ?>
    <?php $this->load->view('depan/include/footer') ?>
+   <script src="<?= base_url() ?>assets/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -1,3 +1,28 @@
+<style>
+   .page-item a.active {
+      position: relative;
+      display: block;
+      padding: .5rem .75rem;
+      margin-left: -1px;
+      line-height: 1.25;
+      color: black;
+      background-color: #ffc107;
+      border: 1px solid #dee2e6;
+      font-weight: 500;
+   }
+
+   .page-item a {
+      position: relative;
+      display: block;
+      padding: .5rem .75rem;
+      margin-left: -1px;
+      line-height: 1.25;
+      color: #ffc107;
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      font-weight: 500;
+   }
+</style>
 <div class="container mt-4">
    <nav aria-label="breadcrumb">
       <ol class="breadcrumb">

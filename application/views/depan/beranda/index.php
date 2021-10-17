@@ -151,5 +151,4 @@
 </div>
 
 <script src="<?= base_url() ?>assets/plugins/OwlCarousel/owl.carousel.min.js"></script>
-<script src="<?= base_url() ?>assets/dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?= base_url() ?>script/beranda/index.js"></script>

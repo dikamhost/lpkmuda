@@ -27,14 +27,14 @@ class M_kejuruan extends CI_Model
       if (isset($_POST['usr_id'])) {
          $this->db->where('b.usr_id', $_POST['usr_id']);
       }
-      if (isset($_GET['cari'])) {
-         $this->db->like('kjr_nama', $_GET['cari']);
+      if (isset($_GET['key'])) {
+         $this->db->like('kjr_nama', $_GET['key']);
       }
       $data['app_kejuruan'] = $this->db
          ->where('kjr_deleted_at', null)
          ->where('kjr_locked', 0)
          ->order_by('kjr_created_at', 'desc')
-         ->join('system_users b', 'a.kjr_created_by=b.usr_id')
+         ->join('system_users b', 'a.kjr_pemateri=b.usr_id')
          ->get('app_kejuruan a')->result_array();
       return $data;
    }

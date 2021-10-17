@@ -27,14 +27,14 @@ class M_kilat extends CI_Model
       if (isset($_POST['usr_id'])) {
          $this->db->where('b.usr_id', $_POST['usr_id']);
       }
-      if (isset($_GET['cari'])) {
-         $this->db->like('klt_nama', $_GET['cari']);
+      if (isset($_GET['key'])) {
+         $this->db->like('klt_nama', $_GET['key']);
       }
       $data['app_kilat'] = $this->db
          ->where('klt_deleted_at', null)
          ->where('klt_locked', 0)
          ->order_by('klt_created_at', 'desc')
-         ->join('system_users b', 'a.klt_created_by=b.usr_id')
+         ->join('system_users b', 'a.klt_pemateri=b.usr_id')
          ->get('app_kilat a')->result_array();
       return $data;
    }

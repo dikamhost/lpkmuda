@@ -23,8 +23,13 @@ class Kilat extends CI_Controller
    public function lihat($slug = null)
    {
       $data['kilat']    = $this->M_kilat->getKilatLihat($slug);
-      $data['title']       = 'Kilat | ' . $data['kilat']['klt_nama'];
-      $data['page']        = 'depan/kilat/lihat';
+      if ($data['kilat']) {
+         $data['title']       = 'Kilat | ' . $data['kilat']['klt_nama'];
+         $data['page']        = 'depan/kilat/lihat';
+      } else {
+         $data['title']       = '404 Not found !!';
+         $data['page']        = 'depan/error/404';
+      }
       $this->load->view('depan/template', $data);
    }
 }

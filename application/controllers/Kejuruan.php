@@ -23,8 +23,13 @@ class Kejuruan extends CI_Controller
    public function lihat($slug = null)
    {
       $data['kejuruan']    = $this->M_kejuruan->getKejuruanLihat($slug);
-      $data['title']       = 'Kejuruan | ' . $data['kejuruan']['kjr_nama'];
-      $data['page']        = 'depan/kejuruan/lihat';
+      if ($data['kejuruan']) {
+         $data['title']       = 'Kejuruan | ' . $data['kejuruan']['kjr_nama'];
+         $data['page']        = 'depan/kejuruan/lihat';
+      } else {
+         $data['title']       = '404 Not found !!';
+         $data['page']        = 'depan/error/404';
+      }
       $this->load->view('depan/template', $data);
    }
 }
