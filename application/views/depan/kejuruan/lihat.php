@@ -12,7 +12,13 @@
       <div class="container">
          <div class="row">
             <div class="col-md-4">
-               <img src="<?= base_url() ?>/storage/img/about.jpg" class="card-img-top" alt="...">
+               <?php
+               $kjr_image = '/no-image.jpg';
+               if ($kejuruan['kjr_image']) {
+                  $kjr_image = '/kejuruan/' . $kejuruan['kjr_image'];
+               }
+               ?>
+               <img src="<?= STORAGEPATH . $kjr_image ?>" class="card-img-top" alt="...">
             </div>
             <div class="col-md-8">
                <p class="h4 text-left"><?= $kejuruan['kjr_nama'] ?></p>
@@ -57,7 +63,13 @@
                   <div class="tab-pane" id="pemateri">
                      <div class="row">
                         <div class="col-md-3 text-center">
-                           <img src="<?= base_url() ?>storage/pembelajar/pembelajar1.png" style="width: 12rem;" class="card-img-top mb-2" alt="<?= $kejuruan['usr_name'] ?>">
+                           <?php
+                           $usr_foto = '/no-image.jpg';
+                           if ($kejuruan['usr_foto']) {
+                              $usr_foto = '/user/' . $kejuruan['usr_foto'];
+                           }
+                           ?>
+                           <img src="<?= STORAGEPATH . $usr_foto ?>" style="width: 12rem;" class="card-img-top mb-2" alt="<?= $kejuruan['usr_name'] ?>">
                         </div>
                         <div class="col-md-8 text-left">
                            <p class="h4"><?= $kejuruan['usr_name'] ?></p>

@@ -43,4 +43,14 @@ class M_beranda extends CI_Model
          ->get('app_tentang')->row_array();
       return $data;
    }
+
+   public function getKejuruan()
+   {
+      $this->db->limit(4);
+      $data = $this->db
+         ->where('kjr_deleted_at', null)
+         ->order_by('kjr_created_at', 'desc')
+         ->get('app_kejuruan a')->result_array();
+      return $data;
+   }
 }

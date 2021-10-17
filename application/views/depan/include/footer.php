@@ -4,7 +4,7 @@
          <div class="col-md-7">
             <img src="<?= STORAGEPATH ?>/system/<?= getApp('app_brand')['conf_value'] ?>" alt="<?= getApp('app_names')['conf_value'] ?>" width="200" alt="">
             <p class="mt-3">
-               LPK Muda Alhidayah menyediakan kursus-kursus berkualitas (Massive Open Online Courses) yang dibawakan oleh para instruktur terbaik bangsa di platform berbasis online yang dapat diakses secara GRATIS sampai ke seluruh pelosok Indonesia.
+               LPK Muda Al-Hidayah menyediakan kursus-kursus berkualitas berbasis <b>MOOC</b> (Massive Open Online Courses) yang dibawakan oleh para instruktur terbaik bangsa di platform berbasis online yang dapat diakses secara <b>GRATIS</b> sampai ke seluruh pelosok Indonesia.
             </p>
          </div>
          <div class="col-md-4 offset-md-1">

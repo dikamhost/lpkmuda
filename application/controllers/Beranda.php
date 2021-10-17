@@ -8,7 +8,6 @@ class Beranda extends CI_Controller
    {
       parent::__construct();
       $this->load->model('M_beranda');
-      $this->load->model('M_kejuruan');
    }
 
    public function index()
@@ -19,7 +18,7 @@ class Beranda extends CI_Controller
       $data['mitra']    = $this->M_beranda->getMitra();
       $data['pemateri']    = $this->M_beranda->getPemateri();
       $data['tentang']    = $this->M_beranda->getTentang();
-      $data['kejuruan'] = $this->M_kejuruan->getKejuruan()['app_kejuruan'];
+      $data['kejuruan'] = $this->M_beranda->getKejuruan();
       $this->load->view('depan/template', $data);
    }
 }

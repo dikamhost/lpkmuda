@@ -65,7 +65,7 @@ class M_kejuruan extends CI_Model
          ->where('kjr_slug', $slug)
          ->where('kjr_deleted_at', null)
          ->order_by('kjr_created_at', 'desc')
-         ->join('system_users b', 'a.kjr_created_by=b.usr_id')
+         ->join('system_users b', 'a.kjr_pemateri=b.usr_id')
          ->get('app_kejuruan a')->row_array();
       if ($data) {
          $this->db

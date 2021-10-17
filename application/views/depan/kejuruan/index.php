@@ -12,10 +12,14 @@
          <div class="row">
             <?php
             foreach ($data as $d) :
+               $kjr_image = '/no-image.jpg';
+               if ($d['kjr_image']) {
+                  $kjr_image = '/kejuruan/' . $d['kjr_image'];
+               }
             ?>
                <div class="col-md-3 col-sm-12 mb-3">
                   <div class="card text-center" style="width: 100%;">
-                     <img src="<?= base_url() ?>/storage/img/about.jpg" class="card-img-top" alt="...">
+                     <img src="<?= STORAGEPATH . $kjr_image ?>" class="card-img-top" alt="<?= $d['kjr_nama'] ?>" style="max-height: 11.8rem;">
                      <div class="card-body text-left">
                         <h5 class="card-title text-left"><?= $d['kjr_nama'] ?></h5>
                         <p class="card-text text-left">Rp. <?= number_format($d['kjr_harga'], 2, ',', '.') ?></p>
