@@ -18,7 +18,7 @@
                   $kjr_image = '/kejuruan/' . $kejuruan['kjr_image'];
                }
                ?>
-               <img src="<?= STORAGEPATH . $kjr_image ?>" class="card-img-top" alt="...">
+               <img src="<?= STORAGEPATH . $kjr_image ?>" class="card-img-top" alt="<?= $kejuruan['kjr_nama'] ?>">
             </div>
             <div class="col-md-8">
                <p class="h4 text-left"><?= $kejuruan['kjr_nama'] ?></p>
@@ -69,7 +69,7 @@
                               $usr_foto = '/user/' . $kejuruan['usr_foto'];
                            }
                            ?>
-                           <img src="<?= STORAGEPATH . $usr_foto ?>" style="width: 12rem;" class="card-img-top mb-2" alt="<?= $kejuruan['usr_name'] ?>">
+                           <img src="<?= STORAGEPATH . $usr_foto ?>" style="max-width: 12rem; max-height: 14rem; width: auto;" class="card-img-top mb-2" alt="<?= $kejuruan['usr_name'] ?>">
                         </div>
                         <div class="col-md-8 text-left">
                            <p class="h4"><?= $kejuruan['usr_name'] ?></p>

@@ -9,13 +9,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
          <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-               <a class="nav-link" href="<?= base_url('kejuruan') ?>">Kejuruan</a>
+               <a class="nav-link" href="<?= base_url('kejuruan') ?>"><i class="fas fa-address-book"></i> Kejuruan</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="<?= base_url() ?>#tentang">Tentang</a>
+               <a class="nav-link" href="<?= base_url('kilat') ?>"><i class="fas fa-address-card"></i> Kilat</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="<?= base_url() ?>#kontak">Kontak</a>
+               <a class="nav-link" href="<?= base_url() ?>#tentang"><i class="fas fa-archive"></i> Tentang</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="<?= base_url() ?>#kontak"><i class="fas fa-user-circle"></i> Kontak</a>
             </li>
          </ul>
          <form class="form-inline my-2 my-lg-0">

@@ -2,7 +2,7 @@
    <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
          <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fas fa-home"></i> Beranda</a></li>
-         <li class="breadcrumb-item active" aria-current="page"><a href="<?= base_url('kejuruan') ?>">Kursus Kejuruan</a></li>
+         <li class="breadcrumb-item active" aria-current="page"><a href="<?= base_url('kilat') ?>">Kursus Kilat</a></li>
          <li class="breadcrumb-item active" aria-current="page"><?= $kilat['klt_nama'] ?></li>
       </ol>
    </nav>
@@ -18,7 +18,7 @@
                   $klt_image = '/kilat/' . $kilat['klt_image'];
                }
                ?>
-               <img src="<?= STORAGEPATH . $klt_image ?>" class="card-img-top" alt="...">
+               <img src="<?= STORAGEPATH . $klt_image ?>" class="card-img-top" alt="<?= $kilat['klt_nama'] ?>">
             </div>
             <div class="col-md-8">
                <p class="h4 text-left"><?= $kilat['klt_nama'] ?></p>
@@ -69,7 +69,7 @@
                               $usr_foto = '/user/' . $kilat['usr_foto'];
                            }
                            ?>
-                           <img src="<?= STORAGEPATH . $usr_foto ?>" style="width: 12rem;" class="card-img-top mb-2" alt="<?= $kilat['usr_name'] ?>">
+                           <img src="<?= STORAGEPATH . $usr_foto ?>" style="max-width: 12rem; max-height: 14rem; width: auto;" class="card-img-top mb-2" alt="<?= $kilat['usr_name'] ?>">
                         </div>
                         <div class="col-md-8 text-left">
                            <p class="h4"><?= $kilat['usr_name'] ?></p>
