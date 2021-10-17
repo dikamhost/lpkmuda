@@ -289,6 +289,7 @@ define("GENERATOR",	[
 	"app_slider"			=> "hoTVn",
 	"app_mitra"				=> "CrfG",
 	"app_kilat"				=> "AYfU",
+	"app_testimoni"		=> "yCdk",
 ]);
 /*
  * --------------------------------------------------------------------

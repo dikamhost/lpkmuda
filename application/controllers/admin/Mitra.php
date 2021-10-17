@@ -146,7 +146,6 @@ class Mitra extends CI_Controller
          $data = array(
             'mtr_nama'        => $_POST['mtr_nama'],
             'mtr_link'        => $_POST['mtr_link'],
-            'mtr_created_at'  => $_SESSION['system_users']['usr_id'],
          );
          if (!empty($_FILES['mtr_image']['name'])) {
             $config['upload_path']          = './storage/mitra/';
@@ -187,6 +186,7 @@ class Mitra extends CI_Controller
          } else {
             $data['mtr_id']         = GENERATOR['app_mitra'] . "-" . random_string("alnum", 10);
             $data['mtr_created_at'] = date('Y-m-d H:i:s');
+            $data['mtr_created_by'] = $_SESSION['system_users']['usr_id'];
             $data['mtr_locked']     = 0;
             $data['mtr_order']      = $this->db->select('max(mtr_order) as mtr_order')->get('app_mitra')->row_array()['mtr_order'] + 1;
             $query = $this->db->insert('app_mitra', $data);

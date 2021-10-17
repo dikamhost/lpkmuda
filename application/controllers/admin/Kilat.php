@@ -103,7 +103,6 @@ class Kilat extends CI_Controller
             'klt_slug'           => $slug,
             'klt_deskripsi'      => $_POST['klt_deskripsi'],
             'klt_pemateri'       => $_POST['klt_pemateri'],
-            'klt_created_by'     => $_SESSION['system_users']['usr_id'],
          );
          if (!empty($_FILES['klt_image']['name'])) {
             $config['upload_path']          = './storage/kilat/';
@@ -144,6 +143,7 @@ class Kilat extends CI_Controller
          } else {
             $data['klt_id'] = GENERATOR['app_kilat'] . "-" . random_string("alnum", 10);
             $data['klt_created_at'] = date('Y-m-d H:i:s');
+            $data['klt_created_by'] = $_SESSION['system_users']['usr_id'];
             $data['klt_locked'] = 0;
             $query = $this->db->insert('app_kilat', $data);
          }

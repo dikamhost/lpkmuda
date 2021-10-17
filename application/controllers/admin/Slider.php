@@ -146,7 +146,6 @@ class Slider extends CI_Controller
          $data = array(
             'sld_nama'        => $_POST['sld_nama'],
             'sld_link'        => $_POST['sld_link'],
-            'sld_created_at'  => $_SESSION['system_users']['usr_id'],
          );
          if (!empty($_FILES['sld_image']['name'])) {
             $config['upload_path']          = './storage/slider/';
@@ -187,6 +186,7 @@ class Slider extends CI_Controller
          } else {
             $data['sld_id'] = GENERATOR['app_slider'] . "-" . random_string("alnum", 10);
             $data['sld_created_at'] = date('Y-m-d H:i:s');
+            $data['sld_created_by'] = $_SESSION['system_users']['usr_id'];
             $data['sld_locked'] = 0;
             $data['sld_order'] = $this->db->select('max(sld_order) as sld_order')->get('app_slider')->row_array()['sld_order'] + 1;
             $query = $this->db->insert('app_slider', $data);

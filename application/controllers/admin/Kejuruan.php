@@ -103,7 +103,6 @@ class Kejuruan extends CI_Controller
             'kjr_slug'           => $slug,
             'kjr_deskripsi'      => $_POST['kjr_deskripsi'],
             'kjr_pemateri'       => $_POST['kjr_pemateri'],
-            'kjr_created_by'     => $_SESSION['system_users']['usr_id'],
          );
          if (!empty($_FILES['kjr_image']['name'])) {
             $config['upload_path']          = './storage/kejuruan/';
@@ -144,6 +143,7 @@ class Kejuruan extends CI_Controller
          } else {
             $data['kjr_id'] = GENERATOR['app_kejuruan'] . "-" . random_string("alnum", 10);
             $data['kjr_created_at'] = date('Y-m-d H:i:s');
+            $data['kjr_created_by'] = $_SESSION['system_users']['usr_id'];
             $data['kjr_locked'] = 0;
             $query = $this->db->insert('app_kejuruan', $data);
          }

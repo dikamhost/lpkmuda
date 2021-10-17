@@ -66,4 +66,15 @@ class M_beranda extends CI_Model
          ->get('app_kilat')->result_array();
       return $data;
    }
+
+   public function getTestimoni()
+   {
+      $this->db->limit(4);
+      $data = $this->db
+         ->where('tst_locked', 0)
+         ->where('tst_deleted_at', null)
+         ->order_by('tst_created_at', 'desc')
+         ->get('app_testimoni')->result_array();
+      return $data;
+   }
 }
