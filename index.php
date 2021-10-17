@@ -288,6 +288,7 @@ define("GENERATOR",	[
 	"app_kejuruan"			=> "Rfyil",
 	"app_slider"			=> "hoTVn",
 	"app_mitra"				=> "CrfG",
+	"app_kilat"				=> "AYfU",
 ]);
 /*
  * --------------------------------------------------------------------

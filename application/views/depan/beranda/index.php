@@ -82,28 +82,26 @@
       <div class="container">
          <div class="row">
             <?php
-            $data = [
-               'Servis Printer',
-               'Servis HP',
-               'Install Ulang',
-               'Install Zoom',
-            ];
-            foreach ($data as $d) :
+            foreach ($kilat as $d) :
+               $klt_image = '/no-image.jpg';
+               if ($d['klt_image']) {
+                  $klt_image = '/kilat/' . $d['klt_image'];
+               }
             ?>
                <div class="col-md-3 col-sm-12 mb-3">
                   <div class="card text-center" style="width: 100%;">
-                     <img src="<?= base_url() ?>/storage/img/about.jpg" class="card-img-top" alt="...">
+                     <img src="<?= STORAGEPATH . $klt_image ?>" class="card-img-top" alt="<?= $d['klt_nama'] ?>" style="max-height: 11.8rem;">
                      <div class="card-body text-left">
-                        <h5 class="card-title text-left"><?= $d ?></h5>
-                        <p class="card-text text-left">Rp. 100.000</p>
-                        <a href="#" class="btn btn-warning btn-block"><i class="fas fa-eye"></i> Lihat</a>
+                        <h5 class="card-title text-left"><?= $d['klt_nama'] ?></h5>
+                        <p class="card-text text-left">Rp. <?= number_format($d['klt_harga'], 2, ',', '.') ?></p>
+                        <a href="<?= base_url('kejuruan/lihat/' . $d['klt_slug']) ?>" class="btn btn-warning btn-block"><i class="fas fa-eye"></i> Lihat</a>
                      </div>
                   </div>
                </div>
             <?php endforeach; ?>
          </div>
          <div class="row mt-3">
-            <div class="col-md-4 offset-md-4 col-sm-12"><button class="btn btn-block btn-warning">Selengkapnya <i class="fas fa-arrow-circle-right"></i></button></div>
+            <div class="col-md-4 offset-md-4 col-sm-12"><a href="<?= base_url('kilat') ?>" class="btn btn-block btn-warning">Selengkapnya <i class="fas fa-arrow-circle-right"></i></a></div>
          </div>
       </div>
    </div>

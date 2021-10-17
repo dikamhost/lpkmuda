@@ -1,12 +1,12 @@
 <?php
-class M_kejuruan extends CI_Model
+class M_kilat extends CI_Model
 {
    function __construct()
    {
       parent::__construct();
    }
 
-   function getKejuruan($start = null)
+   function getKilat($start = null)
    {
       if ($start) {
          $start = ($start * 8) - 8;
@@ -14,7 +14,7 @@ class M_kejuruan extends CI_Model
       } else {
          $this->db->limit(8);
       }
-      $data = $this->kejuruan();
+      $data = $this->kilat();
       $this->load->library('pagination');
       $config = $this->getConfig($data);
       $this->pagination->initialize($config);
@@ -22,20 +22,20 @@ class M_kejuruan extends CI_Model
       return $data;
    }
 
-   private function kejuruan()
+   private function kilat()
    {
       if (isset($_POST['usr_id'])) {
          $this->db->where('b.usr_id', $_POST['usr_id']);
       }
       if (isset($_GET['cari'])) {
-         $this->db->like('kjr_nama', $_GET['cari']);
+         $this->db->like('klt_nama', $_GET['cari']);
       }
-      $data['app_kejuruan'] = $this->db
-         ->where('kjr_deleted_at', null)
-         ->where('kjr_locked', 0)
-         ->order_by('kjr_created_at', 'desc')
-         ->join('system_users b', 'a.kjr_created_by=b.usr_id')
-         ->get('app_kejuruan a')->result_array();
+      $data['app_kilat'] = $this->db
+         ->where('klt_deleted_at', null)
+         ->where('klt_locked', 0)
+         ->order_by('klt_created_at', 'desc')
+         ->join('system_users b', 'a.klt_created_by=b.usr_id')
+         ->get('app_kilat a')->result_array();
       return $data;
    }
 
@@ -53,26 +53,26 @@ class M_kejuruan extends CI_Model
       $config['next_tag_close'] = '</li>';
       $config['cur_tag_open'] = '<li class="page-item"><a class="page-link active"  href="#">';
       $config['cur_tag_close'] = '</a></li>';
-      $config['base_url'] = base_url('kejuruan/index/');
-      $config['total_rows'] = count($this->kejuruan()['app_kejuruan']);
+      $config['base_url'] = base_url('kilat/index/');
+      $config['total_rows'] = count($this->kilat()['app_kilat']);
       $config['per_page'] = 8;
       $config['use_page_numbers'] = TRUE;
       return $config;
    }
 
-   function getKejuruanLihat($slug = null)
+   function getkilatLihat($slug = null)
    {
       $data = $this->db
-         ->where('kjr_slug', $slug)
-         ->where('kjr_deleted_at', null)
-         ->where('kjr_locked', 0)
-         ->order_by('kjr_created_at', 'desc')
-         ->join('system_users b', 'a.kjr_pemateri=b.usr_id')
-         ->get('app_kejuruan a')->row_array();
+         ->where('klt_slug', $slug)
+         ->where('klt_deleted_at', null)
+         ->where('klt_locked', 0)
+         ->order_by('klt_created_at', 'desc')
+         ->join('system_users b', 'a.klt_pemateri=b.usr_id')
+         ->get('app_kilat a')->row_array();
       if ($data) {
          $this->db
-            ->where('kjr_slug', $slug)
-            ->update('app_kejuruan', ['kjr_hit' => $data['kjr_hit'] + 1]);
+            ->where('klt_slug', $slug)
+            ->update('app_kilat', ['klt_hit' => $data['klt_hit'] + 1]);
       }
       return $data;
    }

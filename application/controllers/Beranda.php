@@ -19,6 +19,7 @@ class Beranda extends CI_Controller
       $data['pemateri']    = $this->M_beranda->getPemateri();
       $data['tentang']    = $this->M_beranda->getTentang();
       $data['kejuruan'] = $this->M_beranda->getKejuruan();
+      $data['kilat'] = $this->M_beranda->getKilat();
       $this->load->view('depan/template', $data);
    }
 }

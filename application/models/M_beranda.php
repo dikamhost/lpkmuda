@@ -48,9 +48,21 @@ class M_beranda extends CI_Model
    {
       $this->db->limit(4);
       $data = $this->db
+         ->where('kjr_locked', 0)
          ->where('kjr_deleted_at', null)
          ->order_by('kjr_created_at', 'desc')
          ->get('app_kejuruan a')->result_array();
+      return $data;
+   }
+
+   public function getKilat()
+   {
+      $this->db->limit(4);
+      $data = $this->db
+         ->where('klt_locked', 0)
+         ->where('klt_deleted_at', null)
+         ->order_by('klt_created_at', 'desc')
+         ->get('app_kilat')->result_array();
       return $data;
    }
 }
