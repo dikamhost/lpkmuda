@@ -200,7 +200,7 @@
                   }
                   $('#blah-kjr_image').attr("src", kjr_image);
                   $('#dataModal').modal('show');
-                  $('#dataModalTitle').html('<i class="fas fa-edit"></i> Edit Data Slider');
+                  $('#dataModalTitle').html('<i class="fas fa-edit"></i> Edit Data Kejuruan');
                   $(document).off("click", "#dataModalSave").on("click", "#dataModalSave", function(e) {
                      simpan();
                   });
@@ -214,7 +214,7 @@
       .on("click", "button.tambah", function(e) {
          getPemateri();
          $('#dataModal').modal('show');
-         $('#dataModalTitle').html('<i class="fas fa-plus-circle"></i> Tambah Data Slider');
+         $('#dataModalTitle').html('<i class="fas fa-plus-circle"></i> Tambah Data Kejuruan');
          $(document).off("click", "#dataModalSave").on("click", "#dataModalSave", function(e) {
             simpan();
          });
