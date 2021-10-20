@@ -46,13 +46,13 @@
             <div class="col-md-12">
                <ul class="nav nav-tabs">
                   <li class="nav-item">
-                     <a class="nav-link active" data-id="deskripsi">Deskripsi</a>
+                     <a class="nav-link active" data-id="deskripsi"><i class="fas fa-list-ul"></i> Deskripsi</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" data-id="instruktur">Instruktur</a>
+                     <a class="nav-link" data-id="materi"><i class="fas fa-book"></i> Materi</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" data-id="materi">Materi</a>
+                     <a class="nav-link" data-id="instruktur"><i class="fas fa-user-tie"></i> Instruktur</a>
                   </li>
                </ul>
             </div>
@@ -61,7 +61,9 @@
             <div class="col-md-12">
                <div class="tab-content">
                   <div class="tab-pane active text-left" id="deskripsi">
-                     <?= $kejuruan['kjr_deskripsi'] ?>
+                     <div class="container">
+                        <?= $kejuruan['kjr_deskripsi'] ?>
+                     </div>
                   </div>
                   <div class="tab-pane" id="instruktur">
                      <div class="row">
@@ -80,8 +82,19 @@
                         </div>
                      </div>
                   </div>
-                  <div class="tab-pane" id="materi">
-                     kosong
+                  <div class="tab-pane text-left" id="materi">
+                     <div class="container">
+                        <ul class="list-group list-group-flush mb-3">
+                           <?php foreach ($kejuruan['materi'] as $materi) : ?>
+                              <h2 class="my-1 h5"><i class="fa fa-file"></i> <?= $materi['mtr_nama'] ?></h2>
+                              <?php foreach ($materi['submateri'] as $sub) : ?>
+                                 <li class="list-group-item" style="border-radius: .2rem!important;margin-left: 10px; margin-right:10px;">
+                                    <i class="fa fa-check-circle"></i> <?= $sub['mtr_nama'] ?>
+                                 </li>
+                              <?php endforeach; ?>
+                           <?php endforeach; ?>
+                        </ul>
+                     </div>
                   </div>
                </div>
             </div>
