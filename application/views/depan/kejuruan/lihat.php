@@ -86,7 +86,7 @@
                      <div class="container">
                         <ul class="list-group list-group-flush mb-3">
                            <?php foreach ($kejuruan['materi'] as $materi) : ?>
-                              <h2 class="my-1 h5"><i class="fa fa-file"></i> <?= $materi['mtr_nama'] ?></h2>
+                              <h2 class="mb-2 mt-3 h5"><i class="fa fa-file"></i> <?= $materi['mtr_nama'] ?></h2>
                               <?php foreach ($materi['submateri'] as $sub) : ?>
                                  <li class="list-group-item" style="border-radius: .2rem!important;margin-left: 10px; margin-right:10px;">
                                     <i class="fa fa-check-circle"></i> <?= $sub['mtr_nama'] ?>

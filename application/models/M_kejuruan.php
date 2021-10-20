@@ -83,11 +83,15 @@ class M_kejuruan extends CI_Model
       $data = $this->db
          ->where('mtr_kjr_id', $kjr_id)
          ->where('mtr_index', null)
+         ->where('mtr_locked', 0)
+         ->where('mtr_deleted_at', null)
          ->order_by('mtr_order', 'asc')
          ->get('app_materi')->result_array();
       for ($i = 0; $i < count($data); $i++) {
          $data[$i]['submateri'] = $this->db
             ->where('mtr_index', $data[$i]['mtr_id'])
+            ->where('mtr_locked', 0)
+            ->where('mtr_deleted_at', null)
             ->order_by('mtr_order', 'asc')
             ->get('app_materi')->result_array();
       }
