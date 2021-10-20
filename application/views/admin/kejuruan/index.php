@@ -292,7 +292,7 @@
       });
 </script>
 <!-- Modal -->
-<div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalTitle" aria-hidden="true">
+<div class="modal fade" id="dataModal" role="dialog" aria-labelledby="dataModalTitle" aria-hidden="true">
    <div class="modal-dialog modal-dialog-centered modal-lg" id="dataModalDialog" role="document">
       <div class="modal-content">
          <div class="modal-header">
