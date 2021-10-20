@@ -37,7 +37,7 @@
                </div>
                <div class="row py-md-5 py-3">
                   <div class="col-md-3">
-                     <button class="btn btn-success btn-block"><i class="fas fa-cart-arrow-down"></i> Beli</button>
+                     <button class="btn btn-success btn-block"><i class="fas fa-book-reader"></i> Gabung Kelas</button>
                   </div>
                </div>
             </div>
@@ -49,7 +49,10 @@
                      <a class="nav-link active" data-id="deskripsi">Deskripsi</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" data-id="pemateri">Pemateri</a>
+                     <a class="nav-link" data-id="instruktur">Instruktur</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" data-id="materi">Materi</a>
                   </li>
                </ul>
             </div>
@@ -60,7 +63,7 @@
                   <div class="tab-pane active text-left" id="deskripsi">
                      <?= $kejuruan['kjr_deskripsi'] ?>
                   </div>
-                  <div class="tab-pane" id="pemateri">
+                  <div class="tab-pane" id="instruktur">
                      <div class="row">
                         <div class="col-md-3 text-center">
                            <?php
@@ -76,6 +79,9 @@
                            <p><?= $kejuruan['usr_deskripsi'] ?></p>
                         </div>
                      </div>
+                  </div>
+                  <div class="tab-pane" id="materi">
+                     kosong
                   </div>
                </div>
             </div>

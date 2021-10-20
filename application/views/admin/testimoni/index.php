@@ -102,7 +102,6 @@
             {
                "data": "tst_id",
                "render": function(data, type, row, meta) {
-                  console.log(row);
                   var up_disabled = '';
                   var down_disabled = '';
                   var btn = ``;

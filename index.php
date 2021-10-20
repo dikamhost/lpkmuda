@@ -290,6 +290,7 @@ define("GENERATOR",	[
 	"app_mitra"				=> "CrfG",
 	"app_kilat"				=> "AYfU",
 	"app_testimoni"		=> "yCdk",
+	"app_materi"			=> "NvKt",
 ]);
 /*
  * --------------------------------------------------------------------

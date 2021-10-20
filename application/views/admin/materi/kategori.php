@@ -1,20 +1,16 @@
-<style>
-   #tb_data img {
-      max-height: 5rem;
-   }
-</style>
 <div class="content-wrapper">
    <!-- Content Header (Page header) -->
    <div class="content-header">
       <div class="container-fluid">
          <div class="row mb-2">
             <div class="col-sm-6">
-               <h1 class="m-0"><?= $title ?></h1>
+               <h3 class="my-0 ml-2"><i class="fas fa-book"></i> <?= $title ?></h3>
             </div>
             <div class="col-sm-6">
                <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>" class="text-success">Dashboard</a></li>
-                  <li class="breadcrumb-item active"><?= $title ?></li>
+                  <li class="breadcrumb-item"><a href="<?= base_url('admin/materi') ?>" class="text-success">Materi</a></li>
+                  <li class="breadcrumb-item active"><?= $kejuruan['kjr_nama'] ?></li>
                </ol>
             </div>
          </div>
@@ -31,19 +27,23 @@
          <div class="row">
             <div class="col-12">
                <div class="card">
-                  <div class="card-header">
-                     <button class="btn btn-success tambah"><i class="fas fa-plus"></i> Tambah</button>
+                  <div class="card-header row">
+                     <div class="col-md-8">
+                        <h4><?= $kejuruan['kjr_nama'] ?></h4>
+                     </div>
+                     <div class="col-md-4 text-right">
+                        <button class="btn btn-success btn-sm mb-2 tambah"><i class="fas fa-plus"></i> Tambah</button>
+                        <a class="btn btn-secondary btn-sm mb-2" href="<?= base_url('admin/materi') ?>"><i class="fas fa-arrow-circle-left"></i> Kembali</a>
+                     </div>
                   </div>
                   <!-- /.card-header -->
-                  <div class="card-body">
+                  <div class="card-body pt-2">
                      <table id="tb_data" class="table table-bordered table-hover">
                         <thead>
                            <tr>
                               <th style="width:5%;">No</th>
-                              <th class="text-center" style="width: 25%;">Aksi</th>
-                              <th class="text-center" style="width: 25%;">Image</th>
+                              <th class="text-center" style="width: 20%;">Aksi</th>
                               <th class="text-center" style="width: 50%;">Nama</th>
-                              <th class="text-center" style="width: 50%;">Harga</th>
                            </tr>
                         </thead>
                         <tbody>
@@ -81,13 +81,13 @@
          language: table_language(),
          "autoWidth": false,
          "ordering": true, // Set true agar bisa di sorting
-         "order": [
-            [3, 'asc'],
-            [4, 'asc'],
-         ],
+         "order": true,
          "ajax": {
-            "url": BASE_URL + "admin/kejuruan/view_data", // URL file untuk proses select datanya
-            "type": "POST"
+            "url": BASE_URL + "admin/materi/view_data_kategori", // URL file untuk proses select datanya
+            "type": "POST",
+            data: {
+               kjr_id: `<?= $kejuruan['kjr_id'] ?>`,
+            },
          },
          "deferRender": true,
          "aLengthMenu": [
@@ -95,7 +95,7 @@
             [10, 25, 50, 100]
          ],
          "columns": [{
-               data: 'kjr_id',
+               data: 'mtr_id',
                orderable: false,
                render: function(data, type, row, meta) {
                   return meta.row + meta.settings._iDisplayStart + 1;
@@ -103,39 +103,35 @@
                className: "text-center",
             },
             {
-               "data": "kjr_id",
+               "data": "mtr_id",
                "render": function(data, type, row, meta) {
+                  var up_disabled = '';
+                  var down_disabled = '';
                   var btn = ``;
-                  if (row.kjr_locked == 1) {
-                     btn += `<button type="button" class="mr-1 btn btn-secondary btn-sm lock"  data-id="` + row.kjr_id + `" data-lock="` + row.kjr_locked + `" title="Aktifkan"><i class="fas fa-lock"></i></button>`
+                  if (row.mtr_order <= row.min_mtr_order) {
+                     up_disabled = 'disabled';
+                  }
+                  if (row.mtr_order >= row.max_mtr_order) {
+                     down_disabled = 'disabled';
+                  }
+                  btn += `<button type="button" class="mr-1 btn btn-info btn-sm to-down" data-id="` + row.mtr_id + `" data-order="` + row.mtr_order + `" title="Pindah Ke Bawah" ` + down_disabled + `><i class="fas fa-arrow-down"></i></button>`;
+                  btn += `<button type="button" class="mr-1 btn btn-info btn-sm to-up" data-id="` + row.mtr_id + `" data-order="` + row.mtr_order + `" title="Pindah Ke Atas" ` + up_disabled + `><i class="fas fa-arrow-up"></i></button>`;
+                  if (row.mtr_locked == 1) {
+                     btn += `<button type="button" class="mr-1 btn btn-secondary btn-sm lock"  data-id="` + row.mtr_id + `" data-lock="` + row.mtr_locked + `" title="Aktifkan"><i class="fas fa-lock"></i></button>`
                   } else {
-                     btn += `<button type="button" class="mr-1 btn btn-success btn-sm lock"  data-id="` + row.kjr_id + `" data-lock="` + row.kjr_locked + `" title="Kunci"><i class="fas fa-lock-open"></i></button>`
+                     btn += `<button type="button" class="mr-1 btn btn-success btn-sm lock"  data-id="` + row.mtr_id + `" data-lock="` + row.mtr_locked + `" title="Kunci"><i class="fas fa-lock-open"></i></button>`
                   }
-                  btn += `<button type="button" class="mr-1 btn btn-warning btn-sm edit" data-id="` + row.kjr_id + `"><i class="fas fa-edit" title="Edit"></i></button>`;
-                  btn += `<button type="button" class="mr-1 btn btn-danger btn-sm hapus" data-id="` + row.kjr_id + `"><i class="fas fa-trash" title="Hapus"></i></button>`;
+                  btn += `<button type="button" class="mr-1 btn btn-warning btn-sm edit" data-id="` + row.mtr_id + `"><i class="fas fa-edit" title="Edit"></i></button>`;
+                  btn += `<button type="button" class="mr-1 btn btn-danger btn-sm hapus" data-id="` + row.mtr_id + `"><i class="fas fa-trash" title="Hapus"></i></button>`;
+                  btn += `<a href="<?= base_url('admin/materi/detail/') ?>` + row.mtr_slug + `" class="mr-1 btn btn-purple btn-sm" data-id="` + row.kjr_id + `"><i class="fas fa-align-justify" title="Detail"></i> Detail</a>`;
                   return btn;
                },
                className: "text-center",
                orderable: false
             },
             {
-               "data": "kjr_id",
-               "render": function(data, type, row, meta) {
-                  var img = '/no-image.jpg';
-                  if (row.kjr_image) {
-                     img = `/kejuruan/` + row.kjr_image;
-                  }
-                  var btn = `<img src="<?= STORAGEPATH ?>` + img + `" style="max-width: 200px; max-height: 125px;">`;
-                  return btn;
-               },
-               className: "text-center",
+               "data": "mtr_nama",
                orderable: false
-            },
-            {
-               "data": "kjr_nama"
-            },
-            {
-               "data": "kjr_harga"
             },
          ],
       });
@@ -144,11 +140,11 @@
       .on("click", "#tb_data button.lock", function(e) {
          $.ajax({
             type: "POST",
-            url: BASE_URL + "admin/kejuruan/lock",
+            url: BASE_URL + "admin/materi/lock",
             dataType: "JSON",
             data: {
-               kjr_id: $(this).data('id'),
-               kjr_locked: $(this).data('lock')
+               mtr_id: $(this).data('id'),
+               mtr_locked: $(this).data('lock')
             },
             success: function(data) {
                if (data.status == 1) {
@@ -160,19 +156,32 @@
          });
       });
 
-   function getPemateri(pemateri = null) {
+   $(document).off("click", "#tb_data button.to-up")
+      .on("click", "#tb_data button.to-up", function(e) {
+         order($(this).data('id'), $(this).data('order'), 'up');
+      });
+   $(document).off("click", "#tb_data button.to-down")
+      .on("click", "#tb_data button.to-down", function(e) {
+         order($(this).data('id'), $(this).data('order'), 'down');
+      });
+
+   function order(mtr_id = '', mtr_order = '', mtr_arrow = '') {
       $.ajax({
-         type: "get",
-         url: "<?php echo base_url('admin/kejuruan/getPemateri') ?>",
+         type: "POST",
+         url: BASE_URL + "admin/materi/order",
+         dataType: "JSON",
+         data: {
+            mtr_id: mtr_id,
+            mtr_kjr_id: '<?= $kejuruan['kjr_id'] ?>',
+            mtr_order: mtr_order,
+            mtr_arrow: mtr_arrow
+         },
          success: function(data) {
-            data = JSON.parse(data);
-            data = data.data;
-            $('#kjr_pemateri').html('<option value="">== Pilih Pemateri ==</option>');
-            $.each(data, function(i, val) {
-               var t = `<option value="` + val.usr_id + `">` + val.usr_name + `</option>`;
-               $('#kjr_pemateri').append(t);
-            });
-            $('#kjr_pemateri').val(pemateri);
+            if (data.status == 1) {
+               tabel.ajax.reload(null, true);
+            } else {
+               toastr.error(data.pesan);
+            }
          }
       });
    }
@@ -180,27 +189,18 @@
       .on("click", "#tb_data button.edit", function(e) {
          $.ajax({
             type: "POST",
-            url: BASE_URL + "admin/kejuruan/getByID",
+            url: BASE_URL + "admin/materi/getByID",
             dataType: "JSON",
             data: {
-               kjr_id: $(this).data('id')
+               mtr_id: $(this).data('id')
             },
             success: function(data) {
                if (data.status == 1) {
                   data = data.data;
-                  $('input[name="kjr_id"]').val(data.kjr_id);
-                  $('input[name="kjr_nama"]').val(data.kjr_nama);
-                  tinyMCE.activeEditor.setContent(data.kjr_deskripsi);
-                  $('input[name="kjr_harga"]').val(data.kjr_harga);
-                  getPemateri(data.kjr_pemateri);
-                  if (data.kjr_image) {
-                     var kjr_image = "<?= STORAGEPATH ?>/kejuruan/" + data.kjr_image;
-                  } else {
-                     var kjr_image = "<?= STORAGEPATH ?>/no-image.jpg";
-                  }
-                  $('#blah-kjr_image').attr("src", kjr_image);
+                  $('input[name="mtr_id"]').val(data.mtr_id);
+                  $('input[name="mtr_nama"]').val(data.mtr_nama);
                   $('#dataModal').modal('show');
-                  $('#dataModalTitle').html('<i class="fas fa-edit"></i> Edit Data Kejuruan');
+                  $('#dataModalTitle').html('<i class="fas fa-edit"></i> Edit Kategori Materi');
                   $(document).off("click", "#dataModalSave").on("click", "#dataModalSave", function(e) {
                      simpan();
                   });
@@ -212,9 +212,8 @@
       });
    $(document).off("click", "button.tambah")
       .on("click", "button.tambah", function(e) {
-         getPemateri();
          $('#dataModal').modal('show');
-         $('#dataModalTitle').html('<i class="fas fa-plus-circle"></i> Tambah Data Kejuruan');
+         $('#dataModalTitle').html('<i class="fas fa-plus-circle"></i> Tambah Kategori Materi');
          $(document).off("click", "#dataModalSave").on("click", "#dataModalSave", function(e) {
             simpan();
          });
@@ -223,10 +222,10 @@
       .on("click", "#tb_data button.hapus", function(e) {
          $.ajax({
             type: "POST",
-            url: BASE_URL + "admin/kejuruan/destroy",
+            url: BASE_URL + "admin/materi/destroy",
             dataType: "JSON",
             data: {
-               kjr_id: $(this).data('id')
+               mtr_id: $(this).data('id')
             },
             success: function(data) {
                if (data.status == 1) {
@@ -237,16 +236,15 @@
             }
          });
       });
-   $(document).off("submit", "#form-kejuruan")
-      .on("submit", "#form-kejuruan", function(e) {
+   $(document).off("submit", "#form-data")
+      .on("submit", "#form-data", function(e) {
          event.preventDefault();
          simpan();
       });
 
    function simpan() {
-      tinyMCE.triggerSave();
-      var form_data = new FormData($('#form-kejuruan')[0]);
-      var link = BASE_URL + 'admin/kejuruan/store';
+      var form_data = new FormData($('#form-data')[0]);
+      var link = BASE_URL + 'admin/materi/store';
       $.ajax({
          url: link,
          type: "POST",
@@ -279,21 +277,16 @@
 
    $(document).off("hidden.bs.modal", "#dataModal")
       .on("hidden.bs.modal", "#dataModal", function(e) {
-         tinyMCE.activeEditor.setContent('');
          $('.text-invalid').html('');
          $('#dataModalTitle').html('');
-         $('input[name="kjr_id"]').val('');
-         $('input[name="kjr_nama"]').val('').removeClass("is-valid").removeClass("is-invalid");
-         $('input[name="kjr_harga"]').val('').removeClass("is-valid").removeClass("is-invalid");
-         $('select[name="kjr_pemateri"]').val('').removeClass("is-valid").removeClass("is-invalid");
-         $('input[name="kjr_image"]').val('').removeClass("is-valid").removeClass("is-invalid");
-         $('#blah-kjr_image').attr("src", '<?= STORAGEPATH ?>' + '/no-image.jpg');
+         $('input[name="mtr_id"]').val('');
+         $('input[name="mtr_nama"]').val('').removeClass("is-valid").removeClass("is-invalid");
          $("#dataModalSave").prop("onclick", null).off("click");
       });
 </script>
 <!-- Modal -->
 <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalTitle" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered modal-lg" id="dataModalDialog" role="document">
+   <div class="modal-dialog modal-dialog-centered" id="dataModalDialog" role="document">
       <div class="modal-content">
          <div class="modal-header">
             <h4 class="modal-title" id="dataModalTitle"></h4>
@@ -302,40 +295,15 @@
             </button>
          </div>
          <div class="modal-body" id="dataModalBody">
-            <form id="form-kejuruan" action="#">
+            <form id="form-data" action="#">
                <div class="row">
                   <div class="col-md-12">
-                     <input type="hidden" name="kjr_id" value="">
+                     <input type="hidden" name="mtr_id" value="">
+                     <input type="hidden" name="mtr_kjr_id" value="<?= $kejuruan['kjr_id'] ?>">
                      <div class="form-group">
-                        <label>Nama Kejuruan</label>
-                        <input type="text" id="kjr_nama" value="" name="kjr_nama" class="form-control" placeholder="Nama Kejuruan">
-                        <span class="text-invalid" id="kjr_nama_error"></span>
-                     </div>
-                     <div class="form-group">
-                        <label>Harga</label>
-                        <input type="number" id="kjr_harga" value="" name="kjr_harga" class="form-control" placeholder="Harga">
-                        <span class="text-invalid" id="kjr_harga_error"></span>
-                     </div>
-                     <div class="form-group">
-                        <label>Deskripsi</label>
-                        <textarea name="kjr_deskripsi" id="kjr_deskripsi" class="form-control" placeholder="Deskripsi Kejuruan" rows="3"></textarea>
-                        <span class="text-invalid" id="kjr_deskripsi_error"></span>
-                     </div>
-                     <div class="form-group">
-                        <label>Pemateri</label>
-                        <select class="form-control select2" style="width: 100%" id="kjr_pemateri" data-placeholder="Pilih Pemateri" name="kjr_pemateri">
-                        </select>
-                        <span class="text-invalid" id="kjr_pemateri_error"></span>
-                     </div>
-                     <div class="form-group">
-                        <label>Image</label>
-                        <div class="input-group">
-                           <input onchange="readURL(this, 'kjr_image');" name="kjr_image" type="file" accept="image/gif, image/jpeg, image/png" id="kjr_image">
-                        </div>
-                        <div class="invalid-feedback" id="kjr_image_error"></div>
-                        <div id="kjr_image-display">
-                           <img id="blah-kjr_image" src="<?= STORAGEPATH ?>/no-image.jpg" alt="Mengambil Foto ..." class="mt-2" style="max-height: 200px; max-width: 100%;">
-                        </div>
+                        <label>Nama Kategori</label>
+                        <input type="text" id="mtr_nama" value="" name="mtr_nama" class="form-control" placeholder="Nama Kategori">
+                        <span class="text-invalid" id="mtr_nama_error"></span>
                      </div>
                   </div>
                </div>
@@ -348,27 +316,3 @@
       </div>
    </div>
 </div>
-
-<script src="<?= base_url('assets/plugins/') ?>tinymce/tinymce.min.js"></script>
-<script>
-   tinymce.init({
-      selector: '#kjr_deskripsi',
-      height: "480",
-      plugins: [
-         "advlist autolink link image lists charmap print preview hr anchor pagebreak noneditable",
-         "searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
-         "table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
-      ],
-      toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
-      toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
-      image_advtab: true,
-      external_filemanager_path: BASE_URL + "assets/filemanager/",
-      filemanager_title: "Responsive Filemanager",
-      external_plugins: {
-         "filemanager": BASE_URL + "assets/filemanager/plugin.min.js"
-      },
-      filemanager_access_key: "<?= $this->session->fm_key ?>",
-      relative_urls: false,
-      remove_script_host: false
-   });
-</script>

@@ -9,4 +9,11 @@ class Myerror extends CI_Controller
         $data['page'] = 'admin/myerror/403';
         $this->load->view('admin/myerror/template', $data);
     }
+
+    public function e404()
+    {
+        $data['title'] = '404 Not Found';
+        $data['page'] = 'admin/myerror/404';
+        $this->load->view('admin/myerror/template', $data);
+    }
 }

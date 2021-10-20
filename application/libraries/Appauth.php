@@ -62,7 +62,7 @@ class Appauth
             } else {
                 $uri = $ci->uri->uri_string();
             }
-            if ($uri != 'admin') {
+            if ($uri != 'admin' && $uri != 'admin/profil') {
                 $where    = [
                     "system_access.acs_group"    => $_SESSION['system_users']['usr_group'],
                     "system_menu.mnu_link"        => $uri
