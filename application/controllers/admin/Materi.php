@@ -199,12 +199,11 @@ class Materi extends CI_Controller
          $data = array(
             'mtr_nama'           => $_POST['mtr_nama'],
             'mtr_slug'           => $slug,
+            'mtr_kjr_id'           => $_POST['mtr_kjr_id'],
          );
          if (isset($_POST['mtr_index'])) {
             $data['mtr_index'] = $_POST['mtr_index'];
             $data['mtr_isi'] = $_POST['mtr_isi'];
-         } else {
-            $data['mtr_kjr_id'] = $_POST['mtr_kjr_id'];
          }
          if (!empty($_POST['mtr_id'])) {
             $this->db->where('mtr_id', $_POST['mtr_id']);

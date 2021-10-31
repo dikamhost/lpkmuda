@@ -284,6 +284,7 @@ define('STORAGEPATH', APP_URL . "storage");
 define("GENERATOR",	[
 	"system_group"			=> "Fe1sF",
 	"system_users"			=> "3WzM9",
+	"system_members"		=> "CGiO",
 	"system_menu"			=> "DVite",
 	"app_kejuruan"			=> "Rfyil",
 	"app_slider"			=> "hoTVn",
@@ -291,6 +292,8 @@ define("GENERATOR",	[
 	"app_kilat"				=> "AYfU",
 	"app_testimoni"		=> "yCdk",
 	"app_materi"			=> "NvKt",
+	"app_kelas"				=> "vLJO",
+	"app_modul"				=> "mGed",
 ]);
 /*
  * --------------------------------------------------------------------

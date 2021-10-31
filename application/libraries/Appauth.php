@@ -9,6 +9,7 @@ class Appauth
         $ci->db->select('*');
         $ci->db->from('system_users');
         $ci->db->where('usr_username', $user);
+        $ci->db->where('usr_deleted_at', null);
         $ci->db->limit(1);
         $query = $ci->db->get();
         $result = false;
@@ -104,5 +105,13 @@ class Appauth
         $handle = fopen($tmpfname, "w");
         fwrite($handle, $rfm);
         fclose($handle);
+    }
+
+    public function is_logged_in_member()
+    {
+        $ci = get_instance();
+        if (!$ci->session->userdata('system_members')) {
+            redirect('/member/auth');
+        }
     }
 }

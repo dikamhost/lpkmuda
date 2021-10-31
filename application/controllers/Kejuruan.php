@@ -32,4 +32,32 @@ class Kejuruan extends CI_Controller
       }
       $this->load->view('depan/template', $data);
    }
+
+   public function gabungKelas()
+   {
+      if (isset($_POST['mbr_id']) && isset($_POST['kjr_id'])) {
+         $kelas = $this->db
+            ->where('kls_mbr_id', $_POST['mbr_id'])
+            ->where('kls_kjr_id', $_POST['kjr_id'])
+            ->get('app_kelas')->row_array();
+         if (!$kelas) {
+            $data = array(
+               'kls_mbr_id' => $_POST['mbr_id'],
+               'kls_kjr_id' => $_POST['kjr_id'],
+               'kls_locked' => 1,
+            );
+            $data['kls_id'] = GENERATOR['app_kelas'] . "-" . random_string("alnum", 10);
+            $query = $this->db->insert('app_kelas', $data);
+            if ($query) {
+               echo json_encode(array('status' => 1, 'pesan' => 'Berhasil disimpan !!'));
+            } else {
+               echo json_encode(array('status' => 0, 'pesan' => 'Gagal disimpan !!'));
+            }
+         } else {
+            echo json_encode(array('status' => 4, 'pesan' => 'Gagal disimpan !!<br>Anda sudah bergabung'));
+         }
+      } else {
+         echo json_encode(array('status' => 0, 'pesan' => 'Gagal disimpan !!<br>ID tidak terdata'));
+      }
+   }
 }

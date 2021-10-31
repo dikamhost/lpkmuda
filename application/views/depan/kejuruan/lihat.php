@@ -1,3 +1,13 @@
+<style>
+   .list-materi {
+      background-color: #e3ece5;
+      border-radius: .2rem !important;
+      margin-left: 10px;
+      margin-right: 10px;
+      padding: .4rem 1.25rem;
+      margin-bottom: 10px;
+   }
+</style>
 <div class="container mt-4">
    <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
@@ -37,7 +47,7 @@
                </div>
                <div class="row py-md-5 py-3">
                   <div class="col-md-3">
-                     <button class="btn btn-success btn-block"><i class="fas fa-book-reader"></i> Gabung Kelas</button>
+                     <button onclick="gabung('<?= (isset($_SESSION['system_members']['mbr_id'])) ? $_SESSION['system_members']['mbr_id'] : '' ?>','<?= $kejuruan['kjr_id'] ?>')" class="btn btn-success btn-block"><i class="fas fa-book-reader"></i> Gabung Kelas</button>
                   </div>
                </div>
             </div>
@@ -88,7 +98,7 @@
                            <?php foreach ($kejuruan['materi'] as $materi) : ?>
                               <h2 class="mb-2 mt-3 h5"><i class="fa fa-file"></i> <?= $materi['mtr_nama'] ?></h2>
                               <?php foreach ($materi['submateri'] as $sub) : ?>
-                                 <li class="list-group-item" style="border-radius: .2rem!important;margin-left: 10px; margin-right:10px;">
+                                 <li class="list-group-item list-materi">
                                     <i class="fa fa-check-circle"></i> <?= $sub['mtr_nama'] ?>
                                  </li>
                               <?php endforeach; ?>

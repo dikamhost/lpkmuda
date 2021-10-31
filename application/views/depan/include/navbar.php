@@ -27,7 +27,21 @@
                <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
             </div>
          </form>
-         <a href="<?= base_url('peserta') ?>" class="btn btn-success ml-md-3"><i class="fas fa-sign-in-alt"></i> Masuk</a>
+         <?php if (isset($_SESSION['system_members'])) : ?>
+            <?php
+            $foto = $_SESSION['system_members']['mbr_foto'];
+            if (!isset($foto)) {
+               $foto = STORAGEPATH . '/no-image.jpg';
+            } else {
+               $foto = STORAGEPATH . '/member/' . $foto;
+            }
+            ?>
+            <a href="<?= base_url('member') ?>" class="ml-md-3">
+               <img src="<?= $foto ?>" class="rounded-circle" width="45" alt="" style="border: 0.1rem solid #109c30">
+            </a>
+         <?php else : ?>
+            <a href="<?= base_url('member') ?>" class="btn btn-success ml-md-3"><i class="fas fa-sign-in-alt"></i> Masuk</a>
+         <?php endif; ?>
       </div>
    </div>
 </nav>

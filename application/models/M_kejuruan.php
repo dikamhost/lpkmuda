@@ -73,8 +73,8 @@ class M_kejuruan extends CI_Model
          $this->db
             ->where('kjr_slug', $slug)
             ->update('app_kejuruan', ['kjr_hit' => $data['kjr_hit'] + 1]);
+         $data['materi'] = $this->getMateri($data['kjr_id']);
       }
-      $data['materi'] = $this->getMateri($data['kjr_id']);
       return $data;
    }
 
@@ -87,13 +87,15 @@ class M_kejuruan extends CI_Model
          ->where('mtr_deleted_at', null)
          ->order_by('mtr_order', 'asc')
          ->get('app_materi')->result_array();
-      for ($i = 0; $i < count($data); $i++) {
-         $data[$i]['submateri'] = $this->db
-            ->where('mtr_index', $data[$i]['mtr_id'])
-            ->where('mtr_locked', 0)
-            ->where('mtr_deleted_at', null)
-            ->order_by('mtr_order', 'asc')
-            ->get('app_materi')->result_array();
+      if ($data) {
+         for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['submateri'] = $this->db
+               ->where('mtr_index', $data[$i]['mtr_id'])
+               ->where('mtr_locked', 0)
+               ->where('mtr_deleted_at', null)
+               ->order_by('mtr_order', 'asc')
+               ->get('app_materi')->result_array();
+         }
       }
       return $data;
    }

@@ -325,6 +325,7 @@
                <div class="row">
                   <div class="col-md-12">
                      <input type="hidden" name="mtr_id" value="">
+                     <input type="hidden" name="mtr_kjr_id" value="<?= $materi['mtr_kjr_id'] ?>">
                      <input type="hidden" name="mtr_index" value="<?= $materi['mtr_id'] ?>">
                      <div class="form-group">
                         <label>Nama Materi</label>
