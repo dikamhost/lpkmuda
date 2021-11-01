@@ -20,22 +20,37 @@
                   </div>
                   <div class="col-md-9">
                      <h5 class="mb-2"><?= $k['kjr_nama']; ?></h5>
-                     <?php if ($k['kls_locked'] == 0) : ?>
-                        <div class="progress">
-                           <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                        </div>
-                        <div class="mt-1 mb-2" style="color: #696666;">
-                           <strong> 3 </strong> dari <strong> 75 </strong> modul telah selesai
-                        </div>
-                        <a href="<?= base_url('belajar/' . $k['kjr_slug']) ?>" class="btn btn-success"><i class="fas fa-book-reader"></i> Lanjut Belajar</a>
-                        <hr class="my-2">
-                        <div class="mt-2 mb-3" style="color: #696666;">
-                           <p class="mt-2 mb-1">Lisensi Kepada :</p>
-                           <strong class="mt-0"><?= $k['mbr_name'] ?></strong> <span>| <?= $k['mbr_email'] ?></span>
-                           <p class="mt-1 tgl-license"><i>(<?= $k['kls_created_at'] ?>)</i></p>
-                        </div>
+                     <?php if ($k['kls_lunas'] == 1) : ?>
+                        <?php if ($k['kls_locked'] == 0) : ?>
+                           <?php
+                           $persen = 0;
+                           $jml_modul = $k['jml_modul'];
+                           if ($jml_modul != 0) {
+                              $persen = $k['wes_modul'] / $jml_modul * 100;
+                           }
+                           ?>
+                           <div class="progress">
+                              <div class="progress-bar progress-bar-striped bg-<?= ($persen == 100) ? 'success' : 'warning' ?>" role="progressbar" style="width: <?= $persen; ?>%;" aria-valuenow="<?= $persen; ?>" aria-valuemin="0" aria-valuemax="100"><?= number_format($persen, 0, ',', '.'); ?>%</div>
+                           </div>
+                           <div class="mt-1 mb-2" style="color: #696666;">
+                              <strong> <?= $k['wes_modul'] ?> </strong> dari <strong> <?= $k['jml_modul'] ?> </strong> modul telah selesai
+                           </div>
+                           <a href="<?= base_url('belajar/' . $k['kjr_slug']) ?>" class="btn btn-success"><i class="fas fa-book-reader"></i> Lanjut Belajar</a>
+                           <hr class="my-2">
+                           <div class="mt-2 mb-3" style="color: #696666;">
+                              <p class="mt-2 mb-1">Lisensi Kepada :</p>
+                              <strong class="mt-0"><?= $k['mbr_name'] ?></strong> <span>| <?= $k['mbr_email'] ?></span>
+                              <p class="mt-1 tgl-license"><i>(<?= $k['kls_created_at'] ?>)</i></p>
+                           </div>
+                        <?php else : ?>
+                           <i>(Proses Verifikasi Admin)</i>
+                        <?php endif; ?>
                      <?php else : ?>
-                        <i>(Proses Verifikasi Admin)</i>
+                        <div class="mt-1 mb-2" style="color: #696666;">
+                           <strong>Rp. <?= number_format($k['kjr_harga'], '2', ',', '.') ?> </strong>
+                        </div>
+                        <a href="<?= base_url('member/kelas/bayar/' . $k['kjr_slug']) ?>" class="btn btn-success"><i class="fas fa-money-bill-wave"></i> Bayar</a>
+                        <a href="<?= base_url('member/kelas/bayar/' . $k['kjr_slug']) ?>" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</a>
                      <?php endif; ?>
                   </div>
                   <div class="col-md-12">

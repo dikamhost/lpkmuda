@@ -49,15 +49,15 @@ class Kejuruan extends CI_Controller
             $data['kls_id'] = GENERATOR['app_kelas'] . "-" . random_string("alnum", 10);
             $query = $this->db->insert('app_kelas', $data);
             if ($query) {
-               echo json_encode(array('status' => 1, 'pesan' => 'Berhasil disimpan !!'));
+               echo json_encode(array('status' => 1, 'pesan' => 'Berhasil bergabung !!'));
             } else {
-               echo json_encode(array('status' => 0, 'pesan' => 'Gagal disimpan !!'));
+               echo json_encode(array('status' => 0, 'pesan' => 'Gagal bergabung !!'));
             }
          } else {
-            echo json_encode(array('status' => 4, 'pesan' => 'Gagal disimpan !!<br>Anda sudah bergabung'));
+            echo json_encode(array('status' => 4, 'pesan' => 'Gagal !!<br>Anda sudah bergabung'));
          }
       } else {
-         echo json_encode(array('status' => 0, 'pesan' => 'Gagal disimpan !!<br>ID tidak terdata'));
+         echo json_encode(array('status' => 0, 'pesan' => 'Gagal !!<br>ID tidak terdata'));
       }
    }
 }

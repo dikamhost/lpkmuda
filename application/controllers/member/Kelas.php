@@ -19,4 +19,13 @@ class Kelas extends CI_Controller
       $data['kelas']    = $this->m_kelas->getKelas();
       $this->load->view('depan/template', $data);
    }
+
+   public function bayar($kjr_slug)
+   {
+      $data['title'] = 'Bayar Kelas';
+      $data['memberpage']  = 'member/kelas/bayar';
+      $data['page']  = 'member/template/index';
+      $data['kelas']    = $this->m_kelas->getKelasBayar($kjr_slug);
+      $this->load->view('depan/template', $data);
+   }
 }

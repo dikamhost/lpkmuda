@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-if (!function_exists('tgl_indo')) {
+if (!function_exists('date_indo')) {
    function date_indo($tgl)
    {
       $ubah = gmdate($tgl, time() + 60 * 60 * 8);
@@ -199,5 +199,48 @@ if (!function_exists('longdate_indo')) {
          $nama_hari = "Sabtu";
       }
       return $nama_hari . ',' . $tgl . ' ' . $bulan . ' ' . $thn;
+   }
+}
+if (!function_exists('getRomawi')) {
+   function getRomawi($bln)
+   {
+      switch ($bln) {
+         case 1:
+            return "I";
+            break;
+         case 2:
+            return "II";
+            break;
+         case 3:
+            return "III";
+            break;
+         case 4:
+            return "IV";
+            break;
+         case 5:
+            return "V";
+            break;
+         case 6:
+            return "VI";
+            break;
+         case 7:
+            return "VII";
+            break;
+         case 8:
+            return "VIII";
+            break;
+         case 9:
+            return "IX";
+            break;
+         case 10:
+            return "X";
+            break;
+         case 11:
+            return "XI";
+            break;
+         case 12:
+            return "XII";
+            break;
+      }
    }
 }

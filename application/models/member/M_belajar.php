@@ -10,6 +10,8 @@ class M_belajar extends CI_Model
    {
       $data = $this->db
          ->where('kjr_slug', $slug)
+         ->where('kls_locked', '0')
+         ->where('kls_lunas', '1')
          ->where('kls_mbr_id', $_SESSION['system_members']['mbr_id'])
          ->join('app_kelas b', 'a.kjr_id=b.kls_kjr_id', 'left')
          ->get('app_kejuruan a')->row_array();
@@ -38,11 +40,18 @@ class M_belajar extends CI_Model
    private function getSubMateri($mtr_index)
    {
       $data = $this->db
-         ->select('mtr_nama, mtr_slug, mdl_id')
+         ->select('mtr_nama, mtr_slug, mtr_id')
          ->order_by('mtr_order', 'asc')
          ->where('mtr_index', $mtr_index)
-         ->join('app_modul b', 'a.mtr_id=b.mdl_mtr_id', 'left')
          ->get('app_materi a')->result_array();
+      if ($data) {
+         for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['mdl_id'] = $this->db
+               ->where('mdl_mtr_id', $data[$i]['mtr_id'])
+               ->where('mdl_mbr_id', $_SESSION['system_members']['mbr_id'])
+               ->get('app_modul')->row_array();
+         }
+      }
       return $data;
    }
 

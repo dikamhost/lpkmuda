@@ -294,7 +294,9 @@ define("GENERATOR",	[
 	"app_materi"			=> "NvKt",
 	"app_kelas"				=> "vLJO",
 	"app_modul"				=> "mGed",
+	"app_sertifikat"		=> "SC",
 ]);
+define('FONTPATH', 'C:\Windows\Fonts');
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

@@ -11,7 +11,7 @@
                   <span class="info-box-icon bg-info elevation-1"><i class="fas fa-book"></i></span>
                   <div class="info-box-content">
                      <span class="info-box-text">Jumlah Kelas</span>
-                     <span class="info-box-number">2</span>
+                     <span class="info-box-number"><?= $jml['kelas'] ?></span>
                   </div>
                </div>
             </div>
@@ -21,7 +21,7 @@
                   <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-tasks"></i></span>
                   <div class="info-box-content">
                      <span class="info-box-text">Progres Kelas</span>
-                     <span class="info-box-number">1</span>
+                     <span class="info-box-number"><?= $jml['progres'] ?></span>
                   </div>
                </div>
             </div>
@@ -31,7 +31,7 @@
                   <span class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
                   <div class="info-box-content">
                      <span class="info-box-text">Kelas Selesai</span>
-                     <span class="info-box-number">1</span>
+                     <span class="info-box-number"><?= $jml['selesai'] ?></span>
                   </div>
                </div>
             </div>
@@ -40,19 +40,19 @@
                   <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-award"></i></span>
                   <div class="info-box-content">
                      <span class="info-box-text">Sertifikat</span>
-                     <span class="info-box-number">1</span>
+                     <span class="info-box-number"><?= $jml['sertifikat'] ?></span>
                   </div>
                </div>
             </div>
          </div>
-         <div class="row mt-3">
+         <!-- <div class="row mt-3">
             <div class="col-md-12" id="chart">
             </div>
-         </div>
+         </div> -->
       </div>
    </div>
 </div>
-<script>
+<!-- <script>
    var options = {
       title: {
          text: 'Progres Belajar',
@@ -88,4 +88,4 @@
 
    var chart = new ApexCharts(document.querySelector("#chart"), options);
    chart.render();
-</script>
+</script> -->
