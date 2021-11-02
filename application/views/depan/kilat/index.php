@@ -37,18 +37,18 @@
          <div class="row">
             <?php
             foreach ($data as $d) :
-               $klt_image = '/no-image.jpg';
-               if ($d['klt_image']) {
-                  $klt_image = '/kilat/' . $d['klt_image'];
+               $kjr_image = '/no-image.jpg';
+               if ($d['kjr_image']) {
+                  $kjr_image = '/kejuruan/' . $d['kjr_image'];
                }
             ?>
                <div class="col-md-3 col-sm-12 mb-3">
                   <div class="card text-center" style="width: 100%;">
-                     <img src="<?= STORAGEPATH . $klt_image ?>" class="card-img-top" alt="<?= $d['klt_nama'] ?>" style="max-height: 11.8rem;">
+                     <img src="<?= STORAGEPATH . $kjr_image ?>" class="card-img-top" alt="<?= $d['kjr_nama'] ?>" style="max-height: 11.8rem;">
                      <div class="card-body text-left">
-                        <h5 class="card-title text-left"><?= $d['klt_nama'] ?></h5>
-                        <p class="card-text text-left">Rp. <?= number_format($d['klt_harga'], 2, ',', '.') ?></p>
-                        <a href="<?= base_url('kilat/lihat/' . $d['klt_slug']) ?>" class="btn btn-warning btn-block"><i class="fas fa-eye"></i> Lihat</a>
+                        <h5 class="card-title text-left"><?= $d['kjr_nama'] ?></h5>
+                        <p class="card-text text-left">Rp. <?= number_format($d['kjr_harga'], 2, ',', '.') ?></p>
+                        <a href="<?= base_url('kilat/lihat/' . $d['kjr_slug']) ?>" class="btn btn-warning btn-block"><i class="fas fa-eye"></i> Lihat</a>
                      </div>
                   </div>
                </div>

@@ -20,6 +20,9 @@
             <li class="nav-item">
                <a class="nav-link" href="<?= base_url() ?>#kontak"><i class="fas fa-user-circle"></i> Kontak</a>
             </li>
+            <li class="nav-item">
+               <a class="nav-link" href="<?= base_url('cert') ?>"><i class="fas fa-award"></i> Cek Sertifikat</a>
+            </li>
          </ul>
          <form class="form-inline my-2 my-lg-0" action="<?= base_url('cari') ?>">
             <div class="btn-group" role="group" aria-label="Cari">

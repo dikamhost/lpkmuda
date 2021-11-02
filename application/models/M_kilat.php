@@ -28,14 +28,15 @@ class M_kilat extends CI_Model
          $this->db->where('b.usr_id', $_POST['usr_id']);
       }
       if (isset($_GET['key'])) {
-         $this->db->like('klt_nama', $_GET['key']);
+         $this->db->like('kjr_nama', $_GET['key']);
       }
-      $data['app_kilat'] = $this->db
-         ->where('klt_deleted_at', null)
-         ->where('klt_locked', 0)
-         ->order_by('klt_created_at', 'desc')
-         ->join('system_users b', 'a.klt_pemateri=b.usr_id')
-         ->get('app_kilat a')->result_array();
+      $data['app_kejuruan'] = $this->db
+         ->where('kjr_deleted_at', null)
+         ->where('kjr_type', 'kilat')
+         ->where('kjr_locked', 0)
+         ->order_by('kjr_created_at', 'desc')
+         ->join('system_users b', 'a.kjr_pemateri=b.usr_id')
+         ->get('app_kejuruan a')->result_array();
       return $data;
    }
 
@@ -54,7 +55,7 @@ class M_kilat extends CI_Model
       $config['cur_tag_open'] = '<li class="page-item"><a class="page-link active"  href="#">';
       $config['cur_tag_close'] = '</a></li>';
       $config['base_url'] = base_url('kilat/index/');
-      $config['total_rows'] = count($this->kilat()['app_kilat']);
+      $config['total_rows'] = count($this->kilat()['app_kejuruan']);
       $config['per_page'] = 8;
       $config['use_page_numbers'] = TRUE;
       return $config;
@@ -63,16 +64,39 @@ class M_kilat extends CI_Model
    function getkilatLihat($slug = null)
    {
       $data = $this->db
-         ->where('klt_slug', $slug)
-         ->where('klt_deleted_at', null)
-         ->where('klt_locked', 0)
-         ->order_by('klt_created_at', 'desc')
-         ->join('system_users b', 'a.klt_pemateri=b.usr_id')
-         ->get('app_kilat a')->row_array();
+         ->where('kjr_slug', $slug)
+         ->where('kjr_deleted_at', null)
+         ->where('kjr_locked', 0)
+         ->order_by('kjr_created_at', 'desc')
+         ->join('system_users b', 'a.kjr_pemateri=b.usr_id')
+         ->get('app_kejuruan a')->row_array();
       if ($data) {
          $this->db
-            ->where('klt_slug', $slug)
-            ->update('app_kilat', ['klt_hit' => $data['klt_hit'] + 1]);
+            ->where('kjr_slug', $slug)
+            ->update('app_kejuruan', ['kjr_hit' => $data['kjr_hit'] + 1]);
+         $data['materi'] = $this->getMateri($data['kjr_id']);
+      }
+      return $data;
+   }
+
+   private function getMateri($kjr_id = null)
+   {
+      $data = $this->db
+         ->where('mtr_kjr_id', $kjr_id)
+         ->where('mtr_index', null)
+         ->where('mtr_locked', 0)
+         ->where('mtr_deleted_at', null)
+         ->order_by('mtr_order', 'asc')
+         ->get('app_materi')->result_array();
+      if ($data) {
+         for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['submateri'] = $this->db
+               ->where('mtr_index', $data[$i]['mtr_id'])
+               ->where('mtr_locked', 0)
+               ->where('mtr_deleted_at', null)
+               ->order_by('mtr_order', 'asc')
+               ->get('app_materi')->result_array();
+         }
       }
       return $data;
    }

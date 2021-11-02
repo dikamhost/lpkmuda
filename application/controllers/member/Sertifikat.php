@@ -130,7 +130,7 @@ class Sertifikat extends CI_Controller
       // QR COde
       $writer = new PngWriter();
       // Create QR code
-      $qrCode = QrCode::create(base_url('cert/?crt_id=' . $srt_id))
+      $qrCode = QrCode::create(base_url('cert?srt_id=' . $srt_id))
          ->setEncoding(new Encoding('UTF-8'))
          ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
          ->setSize(450)
@@ -153,7 +153,7 @@ class Sertifikat extends CI_Controller
    public function cobaImage()
    {
       $img = imagecreatefromjpeg('assets/sertifikat/kosong.jpg');
-      
+
       // // $fontFile = FONTPATH."\arial.ttf";
       $fontFile = 'D:\arial.ttf';
       $fontSize = 35;

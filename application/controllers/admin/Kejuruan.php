@@ -7,7 +7,7 @@ class Kejuruan extends CI_Controller
    {
       parent::__construct();
       $this->appauth->is_logged_in();
-      $this->load->model('M_Datatables');
+      $this->load->model("private/app_query", "mod_data");
    }
 
    public function index()
@@ -19,13 +19,27 @@ class Kejuruan extends CI_Controller
 
    public function view_data()
    {
-      $tables = "app_kejuruan";
-      $search = array('kjr_nama', 'kjr_harga');
-      $isWhere = 'kjr_deleted_at IS NULL';
-      header('Content-Type: application/json');
-      $data = $this->M_Datatables->get_tables($tables, $search, $isWhere);
-      header('Content-Type: application/json');
-      echo $data;
+      $set_query["search"]    = ["kjr_nama", "kjr_harga"];
+      $set_query["table"]     = "app_kejuruan";
+      $set_query["select"]    = "*";
+      $set_query["join"]      = null;
+      $set_query["where"]     = ["kjr_deleted_at" => null, 'kjr_type' => 'kejuruan'];
+      $set_query["order"]     = [];
+      if (isset($_POST["order"])) {
+         $set_query["order"]      = [null, null, null, 'kjr_nama', 'kjr_harga'];
+      }
+      $query      = $this->mod_data->getData_table($set_query)->result_array();
+      $output      = [];
+      $count_data   = 0;
+      if ($query) {
+         $output = $query;
+         $count_data   = $this->mod_data->getData_count($set_query);
+      }
+      $return["draw"]            = $_POST["draw"];
+      $return["recordsTotal"]      = count($output);
+      $return["recordsFiltered"]   = $count_data;
+      $return["data"]            = $output;
+      echo json_encode($return, true);
    }
 
    function getPemateri()
@@ -145,6 +159,7 @@ class Kejuruan extends CI_Controller
             $data['kjr_created_at'] = date('Y-m-d H:i:s');
             $data['kjr_created_by'] = $_SESSION['system_users']['usr_id'];
             $data['kjr_locked'] = 0;
+            $data['kjr_type'] = 'kejuruan';
             $query = $this->db->insert('app_kejuruan', $data);
          }
          if ($query) {

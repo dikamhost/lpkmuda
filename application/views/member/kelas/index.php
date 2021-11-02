@@ -44,7 +44,7 @@
                               <p class="mt-1 tgl-license"><i>(<?= $k['kls_lunas'] ?>)</i></p>
                            </div>
                         <?php else : ?>
-                           <i>(Proses Verifikasi Admin)</i>
+                           <button class="btn btn-danger"><i class="fas fa-lock"></i> Kelas Non-aktif</button>
                         <?php endif; ?>
                      <?php else : ?>
                         <div class="mt-1 mb-2" style="color: #696666;">

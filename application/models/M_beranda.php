@@ -48,6 +48,7 @@ class M_beranda extends CI_Model
    {
       $this->db->limit(4);
       $data = $this->db
+         ->where('kjr_type', 'kejuruan')
          ->where('kjr_locked', 0)
          ->where('kjr_deleted_at', null)
          ->order_by('kjr_created_at', 'desc')
@@ -60,10 +61,12 @@ class M_beranda extends CI_Model
    {
       $this->db->limit(4);
       $data = $this->db
-         ->where('klt_locked', 0)
-         ->where('klt_deleted_at', null)
-         ->order_by('klt_created_at', 'desc')
-         ->get('app_kilat')->result_array();
+         ->where('kjr_type', 'kilat')
+         ->where('kjr_locked', 0)
+         ->where('kjr_deleted_at', null)
+         ->order_by('kjr_created_at', 'desc')
+         ->join('system_users b', 'a.kjr_pemateri=b.usr_id')
+         ->get('app_kejuruan a')->result_array();
       return $data;
    }
 

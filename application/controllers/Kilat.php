@@ -15,7 +15,7 @@ class Kilat extends CI_Controller
       $start = $this->uri->segment(3);
       $data['title']       = 'Kilat';
       $data['page']        = 'depan/kilat/index';
-      $data['data']        = $this->M_kilat->getKilat($start)['app_kilat'];
+      $data['data']        = $this->M_kilat->getKilat($start)['app_kejuruan'];
       $data['pagination']  = $this->M_kilat->getKilat()['pagination'];
       $this->load->view('depan/template', $data);
    }
@@ -24,7 +24,7 @@ class Kilat extends CI_Controller
    {
       $data['kilat']    = $this->M_kilat->getKilatLihat($slug);
       if ($data['kilat']) {
-         $data['title']       = 'Kilat | ' . $data['kilat']['klt_nama'];
+         $data['title']       = 'Kilat | ' . $data['kilat']['kjr_nama'];
          $data['page']        = 'depan/kilat/lihat';
       } else {
          $data['title']       = '404 Not found !!';

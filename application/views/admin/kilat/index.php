@@ -95,7 +95,7 @@
             [10, 25, 50, 100]
          ],
          "columns": [{
-               data: 'klt_id',
+               data: 'kjr_id',
                orderable: false,
                render: function(data, type, row, meta) {
                   return meta.row + meta.settings._iDisplayStart + 1;
@@ -103,27 +103,27 @@
                className: "text-center",
             },
             {
-               "data": "klt_id",
+               "data": "kjr_id",
                "render": function(data, type, row, meta) {
                   var btn = ``;
-                  if (row.klt_locked == 1) {
-                     btn += `<button type="button" class="mr-1 btn btn-secondary btn-sm lock"  data-id="` + row.klt_id + `" data-lock="` + row.klt_locked + `" title="Aktifkan"><i class="fas fa-lock"></i></button>`
+                  if (row.kjr_locked == 1) {
+                     btn += `<button type="button" class="mr-1 btn btn-secondary btn-sm lock"  data-id="` + row.kjr_id + `" data-lock="` + row.kjr_locked + `" title="Aktifkan"><i class="fas fa-lock"></i></button>`
                   } else {
-                     btn += `<button type="button" class="mr-1 btn btn-success btn-sm lock"  data-id="` + row.klt_id + `" data-lock="` + row.klt_locked + `" title="Kunci"><i class="fas fa-lock-open"></i></button>`
+                     btn += `<button type="button" class="mr-1 btn btn-success btn-sm lock"  data-id="` + row.kjr_id + `" data-lock="` + row.kjr_locked + `" title="Kunci"><i class="fas fa-lock-open"></i></button>`
                   }
-                  btn += `<button type="button" class="mr-1 btn btn-warning btn-sm edit" data-id="` + row.klt_id + `"><i class="fas fa-edit" title="Edit"></i></button>`;
-                  btn += `<button type="button" class="mr-1 btn btn-danger btn-sm hapus" data-id="` + row.klt_id + `"><i class="fas fa-trash" title="Hapus"></i></button>`;
+                  btn += `<button type="button" class="mr-1 btn btn-warning btn-sm edit" data-id="` + row.kjr_id + `"><i class="fas fa-edit" title="Edit"></i></button>`;
+                  btn += `<button type="button" class="mr-1 btn btn-danger btn-sm hapus" data-id="` + row.kjr_id + `"><i class="fas fa-trash" title="Hapus"></i></button>`;
                   return btn;
                },
                className: "text-center",
                orderable: false
             },
             {
-               "data": "klt_id",
+               "data": "kjr_id",
                "render": function(data, type, row, meta) {
                   var img = '/no-image.jpg';
-                  if (row.klt_image) {
-                     img = `/kilat/` + row.klt_image;
+                  if (row.kjr_image) {
+                     img = `/kilat/` + row.kjr_image;
                   }
                   var btn = `<img src="<?= STORAGEPATH ?>` + img + `" style="max-width: 200px; max-height: 125px;">`;
                   return btn;
@@ -132,10 +132,10 @@
                orderable: false
             },
             {
-               "data": "klt_nama"
+               "data": "kjr_nama"
             },
             {
-               "data": "klt_harga"
+               "data": "kjr_harga"
             },
          ],
       });
@@ -147,8 +147,8 @@
             url: BASE_URL + "admin/kilat/lock",
             dataType: "JSON",
             data: {
-               klt_id: $(this).data('id'),
-               klt_locked: $(this).data('lock')
+               kjr_id: $(this).data('id'),
+               kjr_locked: $(this).data('lock')
             },
             success: function(data) {
                if (data.status == 1) {
@@ -167,12 +167,12 @@
          success: function(data) {
             data = JSON.parse(data);
             data = data.data;
-            $('#klt_pemateri').html('<option value="">== Pilih Pemateri ==</option>');
+            $('#kjr_pemateri').html('<option value="">== Pilih Pemateri ==</option>');
             $.each(data, function(i, val) {
                var t = `<option value="` + val.usr_id + `">` + val.usr_name + `</option>`;
-               $('#klt_pemateri').append(t);
+               $('#kjr_pemateri').append(t);
             });
-            $('#klt_pemateri').val(pemateri);
+            $('#kjr_pemateri').val(pemateri);
          }
       });
    }
@@ -183,22 +183,22 @@
             url: BASE_URL + "admin/kilat/getByID",
             dataType: "JSON",
             data: {
-               klt_id: $(this).data('id')
+               kjr_id: $(this).data('id')
             },
             success: function(data) {
                if (data.status == 1) {
                   data = data.data;
-                  $('input[name="klt_id"]').val(data.klt_id);
-                  $('input[name="klt_nama"]').val(data.klt_nama);
-                  tinyMCE.activeEditor.setContent(data.klt_deskripsi);
-                  $('input[name="klt_harga"]').val(data.klt_harga);
-                  getPemateri(data.klt_pemateri);
-                  if (data.klt_image) {
-                     var klt_image = "<?= STORAGEPATH ?>/kilat/" + data.klt_image;
+                  $('input[name="kjr_id"]').val(data.kjr_id);
+                  $('input[name="kjr_nama"]').val(data.kjr_nama);
+                  tinyMCE.activeEditor.setContent(data.kjr_deskripsi);
+                  $('input[name="kjr_harga"]').val(data.kjr_harga);
+                  getPemateri(data.kjr_pemateri);
+                  if (data.kjr_image) {
+                     var kjr_image = "<?= STORAGEPATH ?>/kilat/" + data.kjr_image;
                   } else {
-                     var klt_image = "<?= STORAGEPATH ?>/no-image.jpg";
+                     var kjr_image = "<?= STORAGEPATH ?>/no-image.jpg";
                   }
-                  $('#blah-klt_image').attr("src", klt_image);
+                  $('#blah-kjr_image').attr("src", kjr_image);
                   $('#dataModal').modal('show');
                   $('#dataModalTitle').html('<i class="fas fa-edit"></i> Edit Data Kursus Kilat');
                   $(document).off("click", "#dataModalSave").on("click", "#dataModalSave", function(e) {
@@ -226,7 +226,7 @@
             url: BASE_URL + "admin/kilat/destroy",
             dataType: "JSON",
             data: {
-               klt_id: $(this).data('id')
+               kjr_id: $(this).data('id')
             },
             success: function(data) {
                if (data.status == 1) {
@@ -282,12 +282,12 @@
          tinyMCE.activeEditor.setContent('');
          $('.text-invalid').html('');
          $('#dataModalTitle').html('');
-         $('input[name="klt_id"]').val('');
-         $('input[name="klt_nama"]').val('').removeClass("is-valid").removeClass("is-invalid");
-         $('input[name="klt_harga"]').val('').removeClass("is-valid").removeClass("is-invalid");
-         $('input[name="klt_pemateri"]').val('').removeClass("is-valid").removeClass("is-invalid");
-         $('input[name="klt_image"]').val('').removeClass("is-valid").removeClass("is-invalid");
-         $('#blah-klt_image').attr("src", '<?= STORAGEPATH ?>' + '/no-image.jpg');
+         $('input[name="kjr_id"]').val('');
+         $('input[name="kjr_nama"]').val('').removeClass("is-valid").removeClass("is-invalid");
+         $('input[name="kjr_harga"]').val('').removeClass("is-valid").removeClass("is-invalid");
+         $('input[name="kjr_pemateri"]').val('').removeClass("is-valid").removeClass("is-invalid");
+         $('input[name="kjr_image"]').val('').removeClass("is-valid").removeClass("is-invalid");
+         $('#blah-kjr_image').attr("src", '<?= STORAGEPATH ?>' + '/no-image.jpg');
          $("#dataModalSave").prop("onclick", null).off("click");
       });
 </script>
@@ -305,36 +305,36 @@
             <form id="form-kilat" action="#">
                <div class="row">
                   <div class="col-md-12">
-                     <input type="hidden" name="klt_id" value="">
+                     <input type="hidden" name="kjr_id" value="">
                      <div class="form-group">
                         <label>Nama Kursus Kilat</label>
-                        <input type="text" id="klt_nama" value="" name="klt_nama" class="form-control" placeholder="Nama Kursus Kilat">
-                        <span class="text-invalid" id="klt_nama_error"></span>
+                        <input type="text" id="kjr_nama" value="" name="kjr_nama" class="form-control" placeholder="Nama Kursus Kilat">
+                        <span class="text-invalid" id="kjr_nama_error"></span>
                      </div>
                      <div class="form-group">
                         <label>Harga</label>
-                        <input type="number" id="klt_harga" value="" name="klt_harga" class="form-control" placeholder="Harga">
-                        <span class="text-invalid" id="klt_harga_error"></span>
+                        <input type="number" id="kjr_harga" value="" name="kjr_harga" class="form-control" placeholder="Harga">
+                        <span class="text-invalid" id="kjr_harga_error"></span>
                      </div>
                      <div class="form-group">
                         <label>Deskripsi</label>
-                        <textarea name="klt_deskripsi" id="klt_deskripsi" class="form-control" placeholder="Deskripsi Kursus Kilat" rows="3"></textarea>
-                        <span class="text-invalid" id="klt_deskripsi_error"></span>
+                        <textarea name="kjr_deskripsi" id="kjr_deskripsi" class="form-control" placeholder="Deskripsi Kursus Kilat" rows="3"></textarea>
+                        <span class="text-invalid" id="kjr_deskripsi_error"></span>
                      </div>
                      <div class="form-group">
                         <label>Pemateri</label>
-                        <select class="form-control select2" style="width: 100%" id="klt_pemateri" data-placeholder="Pilih Pemateri" name="klt_pemateri">
+                        <select class="form-control select2" style="width: 100%" id="kjr_pemateri" data-placeholder="Pilih Pemateri" name="kjr_pemateri">
                         </select>
-                        <span class="text-invalid" id="klt_pemateri_error"></span>
+                        <span class="text-invalid" id="kjr_pemateri_error"></span>
                      </div>
                      <div class="form-group">
                         <label>Image</label>
                         <div class="input-group">
-                           <input onchange="readURL(this, 'klt_image');" name="klt_image" type="file" accept="image/gif, image/jpeg, image/png" id="klt_image">
+                           <input onchange="readURL(this, 'kjr_image');" name="kjr_image" type="file" accept="image/gif, image/jpeg, image/png" id="kjr_image">
                         </div>
-                        <div class="invalid-feedback" id="klt_image_error"></div>
-                        <div id="klt_image-display">
-                           <img id="blah-klt_image" src="<?= STORAGEPATH ?>/no-image.jpg" alt="Mengambil Foto ..." class="mt-2" style="max-height: 200px; max-width: 100%;">
+                        <div class="invalid-feedback" id="kjr_image_error"></div>
+                        <div id="kjr_image-display">
+                           <img id="blah-kjr_image" src="<?= STORAGEPATH ?>/no-image.jpg" alt="Mengambil Foto ..." class="mt-2" style="max-height: 200px; max-width: 100%;">
                         </div>
                      </div>
                   </div>
@@ -352,7 +352,7 @@
 <script src="<?= base_url('assets/plugins/') ?>tinymce/tinymce.min.js"></script>
 <script>
    tinymce.init({
-      selector: '#klt_deskripsi',
+      selector: '#kjr_deskripsi',
       height: "480",
       plugins: [
          "advlist autolink link image lists charmap print preview hr anchor pagebreak noneditable",

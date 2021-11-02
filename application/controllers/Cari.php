@@ -16,7 +16,7 @@ class Cari extends CI_Controller
       $start = $this->uri->segment(3);
       $data['title']       = 'Cari';
       $data['page']        = 'depan/cari/index';
-      $data['kilat']        = $this->M_kilat->getKilat($start)['app_kilat'];
+      $data['kilat']        = $this->M_kilat->getKilat($start)['app_kejuruan'];
       $data['kejuruan']        = $this->M_kejuruan->getKejuruan($start)['app_kejuruan'];
       $this->load->view('depan/template', $data);
    }

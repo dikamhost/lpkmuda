@@ -32,6 +32,7 @@ class M_kejuruan extends CI_Model
       }
       $data['app_kejuruan'] = $this->db
          ->where('kjr_deleted_at', null)
+         ->where('kjr_type', 'kejuruan')
          ->where('kjr_locked', 0)
          ->order_by('kjr_created_at', 'desc')
          ->join('system_users b', 'a.kjr_pemateri=b.usr_id')
