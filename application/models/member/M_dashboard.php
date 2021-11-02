@@ -38,7 +38,7 @@ class M_dashboard extends CI_Model
    {
       $data = $this->db
          ->select('count(kls_id) as jml')
-         ->where('kls_lunas', '1')
+         ->where('kls_lunas !=', null)
          ->where('kls_locked', '0')
          ->where('kls_selesai', '0')
          ->where('kls_mbr_id', $_SESSION['system_members']['mbr_id'])

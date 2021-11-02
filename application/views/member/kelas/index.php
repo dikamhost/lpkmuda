@@ -4,6 +4,7 @@
          <i class="fas fa-book"></i> Kelas
       </div>
       <div class="card-body">
+         <div id="alert" class="col-md-12"></div>
          <?php if ($kelas) : ?>
             <?php foreach ($kelas as $k) : ?>
                <div class="row">
@@ -20,7 +21,7 @@
                   </div>
                   <div class="col-md-9">
                      <h5 class="mb-2"><?= $k['kjr_nama']; ?></h5>
-                     <?php if ($k['kls_lunas'] == 1) : ?>
+                     <?php if ($k['kls_lunas'] != null) : ?>
                         <?php if ($k['kls_locked'] == 0) : ?>
                            <?php
                            $persen = 0;
@@ -40,7 +41,7 @@
                            <div class="mt-2 mb-3" style="color: #696666;">
                               <p class="mt-2 mb-1">Lisensi Kepada :</p>
                               <strong class="mt-0"><?= $k['mbr_name'] ?></strong> <span>| <?= $k['mbr_email'] ?></span>
-                              <p class="mt-1 tgl-license"><i>(<?= $k['kls_created_at'] ?>)</i></p>
+                              <p class="mt-1 tgl-license"><i>(<?= $k['kls_lunas'] ?>)</i></p>
                            </div>
                         <?php else : ?>
                            <i>(Proses Verifikasi Admin)</i>
@@ -49,8 +50,12 @@
                         <div class="mt-1 mb-2" style="color: #696666;">
                            <strong>Rp. <?= number_format($k['kjr_harga'], '2', ',', '.') ?> </strong>
                         </div>
-                        <a href="<?= base_url('member/kelas/bayar/' . $k['kjr_slug']) ?>" class="btn btn-success"><i class="fas fa-money-bill-wave"></i> Bayar</a>
-                        <a href="<?= base_url('member/kelas/bayar/' . $k['kjr_slug']) ?>" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</a>
+                        <?php if ($k['kls_trf_id']) : ?>
+                           <a href="<?= base_url('member/kelas/bayar/' . $k['kjr_slug']) ?>" class="btn btn-info"><i class="fas fa-money-bill-wave"></i> Dalam Proses Verifikasi</a>
+                        <?php else : ?>
+                           <a href="<?= base_url('member/kelas/bayar/' . $k['kjr_slug']) ?>" class="btn btn-success"><i class="fas fa-money-bill-wave"></i> Bayar</a>
+                           <button type="button" onclick="hapus('<?= $k['kls_id'] ?>')" class="btn btn-danger"><i class="fas fa-trash"></i> Batal</button>
+                        <?php endif; ?>
                      <?php endif; ?>
                   </div>
                   <div class="col-md-12">
@@ -72,3 +77,35 @@
       </div>
    </div>
 </div>
+<script>
+   function hapus(kls_id) {
+      $('#alert').html('');
+      var link = BASE_URL + 'member/kelas/destroy';
+      $.ajax({
+         url: link,
+         type: "POST",
+         data: {
+            kls_id: kls_id,
+         },
+         dataType: 'json',
+         success: function(data) {
+            if (data.status == 1) {
+               $('#alert').html(`
+                     <div class="alert alert-success" role="alert">
+                        ` + data.pesan + `
+                     </div>
+                  `);
+               setTimeout(function() {
+                  window.location.href = BASE_URL + "member/kelas";
+               }, 1000);
+            } else {
+               $('#alert').html(`
+                     <div class="alert alert-danger" role="alert">
+                        ` + data.pesan + `
+                     </div>
+                  `);
+            }
+         }
+      });
+   }
+</script>

@@ -11,7 +11,7 @@ class M_belajar extends CI_Model
       $data = $this->db
          ->where('kjr_slug', $slug)
          ->where('kls_locked', '0')
-         ->where('kls_lunas', '1')
+         ->where('kls_lunas !=', null)
          ->where('kls_mbr_id', $_SESSION['system_members']['mbr_id'])
          ->join('app_kelas b', 'a.kjr_id=b.kls_kjr_id', 'left')
          ->get('app_kejuruan a')->row_array();

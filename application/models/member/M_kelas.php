@@ -33,11 +33,28 @@ class M_kelas extends CI_Model
       return $data;
    }
 
-   public function getKelasBayar($slug)
+   public function getKejuruanBayar($slug)
    {
-      $data = $this->db
+      $data = null;
+      $kejuruan = $this->db
          ->where('kjr_slug', $slug)
          ->get('app_kejuruan')->row_array();
+      if ($kejuruan) {
+         $data = $this->getKelasBayar($kejuruan['kjr_id']);
+      }
+      return $data;
+   }
+
+   public function getKelasBayar($kjr_id)
+   {
+      $kls_mbr_id = $_SESSION['system_members']['mbr_id'];
+      $data = $this->db
+         ->where('kls_kjr_id', $kjr_id)
+         ->where('kls_mbr_id', $kls_mbr_id)
+         ->join('app_transfer d', 'a.kls_trf_id=d.trf_id', 'left')
+         ->join('system_members c', 'a.kls_mbr_id=c.mbr_id', 'left')
+         ->join('app_kejuruan b', 'a.kls_kjr_id=b.kjr_id', 'left')
+         ->get('app_kelas a')->row_array();
       return $data;
    }
 }
