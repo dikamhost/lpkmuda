@@ -104,6 +104,11 @@
                   if (row.kls_lunas == null) {
                      btn += `<button class="mr-1 btn btn-purple btn-sm lunaskan" data-id="` + row.kls_id + `"><i class="fas fa-money-bill-wave" title="Lunaskan"></i> Lunaskan</button>`;
                   } else {
+                     if (row.kls_locked == 1) {
+                        btn += `<button type="button" class="mr-1 btn btn-secondary btn-sm lock mb-2"  data-id="` + row.kls_id + `" data-lock="` + row.kls_locked + `" title="Aktifkan"><i class="fas fa-lock"></i></button>`
+                     } else {
+                        btn += `<button type="button" class="mr-1 btn btn-warning btn-sm lock mb-2"  data-id="` + row.kls_id + `" data-lock="` + row.kls_locked + `" title="Kunci"><i class="fas fa-lock-open"></i></button>`
+                     }
                      btn += `<button class="mr-1 btn btn-success btn-sm"><i class="fas fa-check-square" title="Sudah Lunas"></i> Sudah Lunas</button>`;
                   }
                   return btn;
@@ -130,6 +135,25 @@
       });
    });
 
+   $(document).off("click", "#tb_data button.lock")
+      .on("click", "#tb_data button.lock", function(e) {
+         $.ajax({
+            type: "POST",
+            url: BASE_URL + "admin/invoice/lock",
+            dataType: "JSON",
+            data: {
+               kls_id: $(this).data('id'),
+               kls_locked: $(this).data('lock')
+            },
+            success: function(data) {
+               if (data.status == 1) {
+                  tabel.ajax.reload(null, true);
+               } else {
+                  toastr.error(data.pesan);
+               }
+            }
+         });
+      });
    $(document).off("click", "#tb_data button.lunaskan")
       .on("click", "#tb_data button.lunaskan", function(e) {
          $.ajax({

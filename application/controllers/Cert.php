@@ -13,10 +13,10 @@ class Cert extends CI_Controller
       $data['title']       = 'Cek Sertifikat';
       $data['page']        = 'depan/sertifikat/index';
       unset($_SESSION['msg']);
-      if (isset($_GET['srt_id']) && isset($_GET['g-recaptcha-response'])) {
+      if (isset($_POST['srt_id']) && isset($_POST['g-recaptcha-response'])) {
          $status = $this->recaptcha();
          if ($status['success']) {
-            $data['sertifikat'] = $this->db->where('srt_id', $_GET['srt_id'])->get('app_sertifikat')->row_array();
+            $data['sertifikat'] = $this->db->where('srt_id', $_POST['srt_id'])->get('app_sertifikat')->row_array();
          } else {
             $this->session->set_flashdata('msg', 'Kode captcha salah !!');
          }
@@ -27,7 +27,7 @@ class Cert extends CI_Controller
    private function recaptcha()
    {
       // recaptcha
-      $recaptchaResponse = trim($this->input->get('g-recaptcha-response'));
+      $recaptchaResponse = trim($this->input->post('g-recaptcha-response'));
       $ipUser = $this->input->ip_address();
       $secret = $this->config->item('google_secret');
       $url = "https://www.google.com/recaptcha/api/siteverify?secret=" . $secret . "&response=" . $recaptchaResponse . "&remoteip=" . $ipUser;

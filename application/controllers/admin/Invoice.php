@@ -77,4 +77,24 @@ class Invoice extends CI_Controller
          echo json_encode(['status' => 0, 'pesan' => 'Gagal simpan data']);
       }
    }
+
+   public function lock()
+   {
+      if (isset($_POST['kls_locked']) && isset($_POST['kls_id'])) {
+         if ($_POST['kls_locked'] == 0) {
+            $kls_locked = 1;
+         } else {
+            $kls_locked = 0;
+         }
+         $this->db->where('kls_id', $_POST['kls_id']);
+         $query = $this->db->update('app_kelas', ['kls_locked' => $kls_locked]);
+         if ($query) {
+            echo json_encode(['status' => 1]);
+         } else {
+            echo json_encode(['status' => 0, 'pesan' => 'Gagal simpan data']);
+         }
+      } else {
+         echo json_encode(['status' => 0, 'pesan' => 'Gagal simpan data']);
+      }
+   }
 }

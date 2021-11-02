@@ -19,16 +19,24 @@
                </div>
             <?php endif; ?>
             <div class="col-md-6 mb-3">
-               <form action="<?= base_url('cert') ?>">
+               <form action="<?= base_url('cert') ?>" method="POST">
                   <div class="form-group">
                      <h5 class="mb-3"><i class="fas fa-award"></i> Id Sertifikat</h5>
-                     <input type="text" id="srt_id" value="<?= (isset($_GET['srt_id'])) ? $_GET['srt_id'] : '' ?>" name="srt_id" class="form-control" placeholder="Masukkan Id Sertifikat">
+                     <?php
+                     $value = '';
+                     if (isset($_POST['srt_id'])) {
+                        $value = $_POST['srt_id'];
+                     } else if (isset($_GET['srt_id'])) {
+                        $value =  $_GET['srt_id'];
+                     }
+                     ?>
+                     <input type="text" id="srt_id" value="<?= $value ?>" name="srt_id" class="form-control" placeholder="Masukkan Id Sertifikat">
                   </div>
                   <div class="g-recaptcha" data-sitekey="<?= $this->config->item('google_key') ?>"></div>
                   <button type="submit" class="btn btn-danger px-5 mt-3"><i class="fas fa-search"></i> Cari</button>
                </form>
             </div>
-            <?php if (isset($_GET['srt_id']) && !$this->session->flashdata('msg') && isset($_GET['g-recaptcha-response'])) : ?>
+            <?php if (isset($_POST['srt_id']) && !$this->session->flashdata('msg') && isset($_POST['g-recaptcha-response'])) : ?>
                <?php if (isset($sertifikat)) : ?>
                   <div class="col-md-6">
                      <img src="<?= STORAGEPATH ?>/sertifikat/<?= $sertifikat['srt_img'] ?>" alt="" style="max-width: 100%;">
