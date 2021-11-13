@@ -27,6 +27,11 @@ class Belajar extends CI_Controller
                ];
                $cek_selesai = $this->db->get_where('app_kelas', $cek_where)->row_array()['kls_selesai'];
                if ($cek_selesai == 1) {
+                  $srt_data = [
+                     'srt_mbr_id' => $_SESSION['system_members']['mbr_id'],
+                     'srt_kjr_id' => $data['kejuruan']['kjr_id'],
+                  ];
+                  $data['sertifikat']  = $this->db->get_where('app_sertifikat', $srt_data)->row_array();
                   $data['page']        = 'belajar/selesai';
                } else {
                   $data['page']        = 'belajar/error/403';

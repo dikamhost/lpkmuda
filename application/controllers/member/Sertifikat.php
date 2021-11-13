@@ -9,6 +9,10 @@ use Endroid\QrCode\Label\Label;
 use Endroid\QrCode\Logo\Logo;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
+// reference the Dompdf namespace
+use Dompdf\Adapter\CPDF;
+use Dompdf\Dompdf;
+use Dompdf\Exception;
 
 class Sertifikat extends CI_Controller
 {
@@ -61,11 +65,81 @@ class Sertifikat extends CI_Controller
       return $no;
    }
 
+   public function do_cetakpdf(){
+      $this->load->library('Pdf'); // MEMANGGIL LIBRARY YANG KITA BUAT TADI
+      error_reporting(0); // AGAR ERROR MASALAH VERSI PHP TIDAK MUNCUL
+        $pdf = new FPDF('P','mm','A4');
+        $pdf->AddPage();
+      //   $image = base_url().'assets/sertifikat/kosong.jpg';
+      //   $pdf->Image($image,10,10,-300);
+        $pdf->Image('demo.jpg',60,30,89);
+        $pdf->SetFont('Arial','B',16);
+        $pdf->Cell(0,7,'DAFTAR MEMBER LPKMUDA',0,1,'C');
+        $pdf->Cell(10,7,'',0,1);
+        $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(10,6,'No',1,0,'C');
+        $pdf->Cell(90,6,'Nama Pegawai',1,0,'C');
+        $pdf->Cell(120,6,'Alamat',1,0,'C');
+        $pdf->Cell(40,6,'Telp',1,1,'C');
+        $pdf->SetFont('Arial','',10);
+        $pegawai = $this->db->get('system_members')->result();
+        $no=0;
+        foreach ($pegawai as $data){
+            $no++;
+            $pdf->Cell(10,6,$no,1,0, 'C');
+            $pdf->Cell(90,6,$data->mbr_name,1,0);
+            $pdf->Cell(120,6,$data->mbr_email,1,0);
+            $pdf->Cell(40,6,$data->mbr_username,1,1);
+        }
+        $pdf->Output("sertifikat.pdf","I");
+   }
+
+   public function do_cetak_pdf(){
+      
+      // $srt_id = $data['srt_id'];
+      $srt_id = 'SC-5kId1m4cR9';
+      $data = [
+         'title' => 'Sertifikat'
+      ];
+      // QR COde
+      $writer = new PngWriter();
+      // Create QR code
+      $qrCode = QrCode::create(base_url('cert?srt_id=' . $srt_id))
+         ->setEncoding(new Encoding('UTF-8'))
+         ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
+         ->setSize(450)
+         ->setMargin(0)
+         ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
+         ->setForegroundColor(new Color(0, 0, 0))
+         ->setBackgroundColor(new Color(255, 255, 255));
+      
+      $logo = Logo::create('./storage/system/app_icons.png')
+         ->setResizeToWidth(100);
+      $result = $writer->write($qrCode, $logo, null);
+      $result->saveToFile('./storage/QRcode/' . $srt_id . '.png');
+      $dataUri = $result->getDataUri();
+      $data['dataqr']   = $dataUri;
+      $this->load->view('member/sertifikat/cetak', $data);
+      // instantiate and use the dompdf class
+      $dompdf = new Dompdf();
+      $dompdf->loadHtml($this->load->view('member/sertifikat/cetak', $data, true));
+      // (Optional) Setup the paper size and orientation
+      $dompdf->setPaper('A4', 'landscape');
+      // Render the HTML as PDF
+      $dompdf->render();
+      // Output the generated PDF to Browser
+      // $dompdf->stream();
+      // $output = $dompdf->stream();
+      $output = $dompdf->output();
+      $path = 'sertifikat.pdf';
+      file_put_contents($path, $output);
+      echo $path;
+   }
    private function do_cetak($data)
    {
       $srt_id = $data['srt_id'];
       $img = imagecreatefromjpeg('assets/sertifikat/kosong.jpg');
-      $fontFile = FONTPATH . "\arial.ttf";
+      $fontFile = "C:\Windows\Fonts\arial.ttf";
       $fontSize = 35;
       $fontColor = imagecolorallocate($img, 0, 0, 0);
       $angle = 0;
