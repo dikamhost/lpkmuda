@@ -296,7 +296,7 @@ define("GENERATOR",	[
 	"app_modul"				=> "mGed",
 	"app_sertifikat"		=> "SC",
 ]);
-define('FONTPATH', 'C:\Windows\Fonts');
+define('FONTPATH', "D:\storage\laragon\www\project\lpkmuda\assets\sertifikat");
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

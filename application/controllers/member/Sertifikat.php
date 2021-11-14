@@ -139,26 +139,20 @@ class Sertifikat extends CI_Controller
    {
       $srt_id = $data['srt_id'];
       $img = imagecreatefromjpeg('assets/sertifikat/kosong.jpg');
-      $fontFile = "C:\Windows\Fonts\arial.ttf";
+      $fontFile = FONTPATH . "\arial.TTF";
       $fontSize = 35;
       $fontColor = imagecolorallocate($img, 0, 0, 0);
       $angle = 0;
-      $no = $data['srt_no_urut'];
+      $bulan = getRomawi(date('m'));
+      $tahun = date('Y');
+      $no = $data['srt_no_urut']."/LPK.MAH/".$bulan."/".$tahun;
       $posX = 2700;
       $posY = 139;
       imagettftext($img, $fontSize, $angle, $posX, $posY, $fontColor, $fontFile, $no);
-      $bulan = getRomawi(date('m'));
-      $posX = 3043;
-      $posY = 139;
-      imagettftext($img, $fontSize, $angle, $posX, $posY, $fontColor, $fontFile, $bulan);
-      $tahun = date('Y');
-      $posX = 3125;
-      $posY = 139;
-      imagettftext($img, $fontSize, $angle, $posX, $posY, $fontColor, $fontFile, $tahun);
-      $fontSize = 66;
-      $fontFile = FONTPATH . "\ELEPHNTI.TTF";
+      $fontSize = 111;
+      $fontFile = FONTPATH . "\dwardian-script-itc-bold.TTF";
       $name = $_SESSION['system_members']['mbr_name'];
-      $iWidth = imagesx($img); // (C2) GET TEXT BOX DIMENSIONS
+      $iWidth = imagesx($img);
       $tSize = imagettfbbox($fontSize, $angle, $fontFile, $name);
       $tWidth = max([$tSize[2], $tSize[4]]) - min([$tSize[0], $tSize[6]]);
       $centerX = CEIL(($iWidth - $tWidth) / 2);
@@ -186,7 +180,7 @@ class Sertifikat extends CI_Controller
       $fontSize = 34;
       $nama = date_indo(date('Y-m-d'));
       $posX = 2590;
-      $posY = 1775;
+      $posY = 1770;
       imagettftext($img, $fontSize, $angle, $posX, $posY, $fontColor, $fontFile, $nama);
       $fontSize = 38;
       $nama = $srt_id;
@@ -194,8 +188,8 @@ class Sertifikat extends CI_Controller
       $posY = 2236;
       imagettftext($img, $fontSize, $angle, $posX, $posY, $fontColor, $fontFile, $nama);
       $fontSize = 33;
-      $nama = ': lpkmudaalhidayah.my.id/cert';
-      $posX = 2794;
+      $nama = 'Cek keaslian sertifikat di : lpkmudaalhidayah.my.id/cert';
+      $posX = 2254;
       $posY = 2380;
       imagettftext($img, $fontSize, $angle, $posX, $posY, $fontColor, $fontFile, $nama);
       $quality = 100; // 0 to 100
@@ -207,7 +201,7 @@ class Sertifikat extends CI_Controller
       $qrCode = QrCode::create(base_url('cert?srt_id=' . $srt_id))
          ->setEncoding(new Encoding('UTF-8'))
          ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
-         ->setSize(450)
+         ->setSize(400)
          ->setMargin(0)
          ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
          ->setForegroundColor(new Color(0, 0, 0))
@@ -219,7 +213,7 @@ class Sertifikat extends CI_Controller
       $dataUri = $result->getDataUri();
       $dest = imagecreatefromjpeg('./storage/sertifikat/' . $srt_id . '.jpg');
       $src = imagecreatefrompng($dataUri);
-      imagecopymerge($dest, $src, 300, 1700, 0, 0, 450, 450, 100);
+      imagecopymerge($dest, $src, 350, 1750, 0, 0, 400, 400, 100);
       imagejpeg($dest, './storage/sertifikat/' . $srt_id . '.jpg', $quality);
       return $srt_id . '.jpg';
    }
