@@ -8,6 +8,9 @@ Erlangga Rizki Mura
 >= php7.4
 php-dom
 php-mbstring
+php-mysql
+php-mysqli
+php-gd
 
 #Cara install :
 composer install
