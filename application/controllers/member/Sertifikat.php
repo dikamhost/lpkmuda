@@ -139,7 +139,7 @@ class Sertifikat extends CI_Controller
    {
       $srt_id = $data['srt_id'];
       $img = imagecreatefromjpeg('assets/sertifikat/kosong.jpg');
-      $fontFile = FONTPATH . "\arial.TTF";
+      $fontFile = FONTPATH . "/arial.ttf";
       $fontSize = 35;
       $fontColor = imagecolorallocate($img, 0, 0, 0);
       $angle = 0;
@@ -150,7 +150,7 @@ class Sertifikat extends CI_Controller
       $posY = 139;
       imagettftext($img, $fontSize, $angle, $posX, $posY, $fontColor, $fontFile, $no);
       $fontSize = 111;
-      $fontFile = FONTPATH . "\dwardian-script-itc-bold.TTF";
+      $fontFile = FONTPATH . "/dwardian-script-itc-bold.ttf";
       $name = $_SESSION['system_members']['mbr_name'];
       $iWidth = imagesx($img);
       $tSize = imagettfbbox($fontSize, $angle, $fontFile, $name);
@@ -160,7 +160,7 @@ class Sertifikat extends CI_Controller
       $posY = 1000;
       imagettftext($img, $fontSize, $angle, $centerX, $posY, $fontColor, $fontFile, $name);
       $fontSize = 66;
-      $fontFile = FONTPATH . "\arial.TTF";
+      $fontFile = FONTPATH . "/arial.ttf";
       $nama = $this->db->get_where('app_kejuruan', ['kjr_id' => $_POST['kjr_id']])->row_array()['kjr_nama'];
       $nama = '"' . $nama . '"';
       $tSize = imagettfbbox($fontSize, $angle, $fontFile, $nama);

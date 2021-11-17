@@ -1,8 +1,15 @@
-- Office Perkantoran
-- Digital Marketing
-- Teknisi Komputer
-- Tata Boga
-- Menjahit
+kejuruan :
+- Office Perkantoran : 350k : ayumi
+- Digital Marketing : 300k : didik
+- Teknisi Komputer : 350K : tarom
+- Tata Boga : 300k : hartijah
+- Menjahit : 350k : ayun
+
+kilat :
+- angga : 100k : Pemasaran Efektif Di Era Digital
+- didik : 100k : Desain Grafis Menggunakan Photoshop Untuk Pemula
+- dewi : 100k : Implementasi Data Statistika Untuk Pelaku Usaha
+
 
 folder storage
 - testimoni

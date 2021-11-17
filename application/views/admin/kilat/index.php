@@ -123,7 +123,7 @@
                "render": function(data, type, row, meta) {
                   var img = '/no-image.jpg';
                   if (row.kjr_image) {
-                     img = `/kilat/` + row.kjr_image;
+                     img = `/kejuruan/` + row.kjr_image;
                   }
                   var btn = `<img src="<?= STORAGEPATH ?>` + img + `" style="max-width: 200px; max-height: 125px;">`;
                   return btn;
@@ -194,7 +194,7 @@
                   $('input[name="kjr_harga"]').val(data.kjr_harga);
                   getPemateri(data.kjr_pemateri);
                   if (data.kjr_image) {
-                     var kjr_image = "<?= STORAGEPATH ?>/kilat/" + data.kjr_image;
+                     var kjr_image = "<?= STORAGEPATH ?>/kejuruan/" + data.kjr_image;
                   } else {
                      var kjr_image = "<?= STORAGEPATH ?>/no-image.jpg";
                   }

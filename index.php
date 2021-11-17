@@ -296,7 +296,8 @@ define("GENERATOR",	[
 	"app_modul"				=> "mGed",
 	"app_sertifikat"		=> "SC",
 ]);
-define('FONTPATH', "D:\storage\laragon\www\project\lpkmuda\assets\sertifikat");
+// define('FONTPATH', "D:\storage\laragon\www\project\lpkmuda\assets\sertifikat");
+define('FONTPATH', FCPATH."assets/sertifikat/");
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
