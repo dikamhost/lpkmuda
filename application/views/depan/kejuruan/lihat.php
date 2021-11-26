@@ -12,7 +12,7 @@
    <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
          <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fas fa-home"></i> Beranda</a></li>
-         <li class="breadcrumb-item active" aria-current="page"><a href="<?= base_url('kejuruan') ?>">Kursus Kejuruan</a></li>
+         <li class="breadcrumb-item active" aria-current="page"><a href="<?= base_url('kejuruan') ?>">Kursus Bersertifikat</a></li>
          <li class="breadcrumb-item active" aria-current="page"><?= $kejuruan['kjr_nama'] ?></li>
       </ol>
    </nav>

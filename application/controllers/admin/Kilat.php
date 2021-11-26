@@ -12,7 +12,7 @@ class Kilat extends CI_Controller
 
    public function index()
    {
-      $data['title'] = 'Kilat';
+      $data['title'] = 'Kursus Gratis';
       $data['page'] = 'admin/kilat/index';
       $this->load->view('admin/template', $data);
    }

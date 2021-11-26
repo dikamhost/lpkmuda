@@ -12,7 +12,7 @@ class Kejuruan extends CI_Controller
 
    public function index()
    {
-      $data['title'] = 'Kejuruan';
+      $data['title'] = 'Kursus Bersertifikat';
       $data['page'] = 'admin/kejuruan/index';
       $this->load->view('admin/template', $data);
    }

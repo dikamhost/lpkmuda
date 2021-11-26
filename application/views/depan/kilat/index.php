@@ -27,7 +27,7 @@
    <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
          <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="fas fa-home"></i> Beranda</a></li>
-         <li class="breadcrumb-item active" aria-current="page">Kursus Kilat</li>
+         <li class="breadcrumb-item active" aria-current="page">Kursus Gratis</li>
       </ol>
    </nav>
 </div>

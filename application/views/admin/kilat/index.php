@@ -200,7 +200,7 @@
                   }
                   $('#blah-kjr_image').attr("src", kjr_image);
                   $('#dataModal').modal('show');
-                  $('#dataModalTitle').html('<i class="fas fa-edit"></i> Edit Data Kursus Kilat');
+                  $('#dataModalTitle').html('<i class="fas fa-edit"></i> Edit Data Kursus Gratis');
                   $(document).off("click", "#dataModalSave").on("click", "#dataModalSave", function(e) {
                      simpan();
                   });
@@ -214,7 +214,7 @@
       .on("click", "button.tambah", function(e) {
          getPemateri();
          $('#dataModal').modal('show');
-         $('#dataModalTitle').html('<i class="fas fa-plus-circle"></i> Tambah Data Kursus Kilat');
+         $('#dataModalTitle').html('<i class="fas fa-plus-circle"></i> Tambah Data Kursus Gratis');
          $(document).off("click", "#dataModalSave").on("click", "#dataModalSave", function(e) {
             simpan();
          });
@@ -307,8 +307,8 @@
                   <div class="col-md-12">
                      <input type="hidden" name="kjr_id" value="">
                      <div class="form-group">
-                        <label>Nama Kursus Kilat</label>
-                        <input type="text" id="kjr_nama" value="" name="kjr_nama" class="form-control" placeholder="Nama Kursus Kilat">
+                        <label>Nama Kursus Gratis</label>
+                        <input type="text" id="kjr_nama" value="" name="kjr_nama" class="form-control" placeholder="Nama Kursus Gratis">
                         <span class="text-invalid" id="kjr_nama_error"></span>
                      </div>
                      <div class="form-group">
@@ -318,7 +318,7 @@
                      </div>
                      <div class="form-group">
                         <label>Deskripsi</label>
-                        <textarea name="kjr_deskripsi" id="kjr_deskripsi" class="form-control" placeholder="Deskripsi Kursus Kilat" rows="3"></textarea>
+                        <textarea name="kjr_deskripsi" id="kjr_deskripsi" class="form-control" placeholder="Deskripsi Kursus Gratis" rows="3"></textarea>
                         <span class="text-invalid" id="kjr_deskripsi_error"></span>
                      </div>
                      <div class="form-group">

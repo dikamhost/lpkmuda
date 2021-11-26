@@ -48,7 +48,7 @@
 </div>
 <section style="background-color: #f9f9f9;">
    <div class="col-md-12 text-center py-4">
-      <h2 class="mb-3">Kursus Kejuruan</h2>
+      <h2 class="mb-3">Kursus Bersertifikat</h2>
       <div class="container">
          <div class="row">
             <?php
@@ -78,7 +78,7 @@
 </section>
 <section>
    <div class="col-md-12 text-center py-4">
-      <h2 class="mb-4">Kursus Kilat Bermanfaat</h2>
+      <h2 class="mb-4">Kursus Gratis</h2>
       <div class="container">
          <div class="row">
             <?php

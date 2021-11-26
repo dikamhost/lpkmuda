@@ -14,7 +14,7 @@
             <?php if ($kejuruan) : ?>
                <div class="row">
                   <div class="col-md-12 text-left mb-2">
-                     <h3>Kursus Kejuruan</h3>
+                     <h3>Kursus Bersertifikat</h3>
                   </div>
                </div>
                <div class="row">
@@ -41,7 +41,7 @@
             <?php if ($kilat) : ?>
                <div class="row">
                   <div class="col-md-12 text-left mb-2">
-                     <h3>Kursus Kilat</h3>
+                     <h3>Kursus Gratis</h3>
                   </div>
                </div>
                <div class="row">

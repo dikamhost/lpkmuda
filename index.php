@@ -292,7 +292,7 @@ define("GENERATOR",	[
 	"app_kilat"				=> "AYfU",
 	"app_testimoni"		=> "yCdk",
 	"app_materi"			=> "NvKt",
-	"app_kelas"				=> "vLJO",
+	"app_kelas"				=> "KINV",
 	"app_modul"				=> "mGed",
 	"app_sertifikat"		=> "SC",
 ]);

@@ -27,7 +27,7 @@
                         <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Kursus Kejuruan</span>
+                            <span class="info-box-text">Kursus Bersertifikat</span>
                             <span class="info-box-number">
                                 <?= $jumlah['kejuruan'] ?>
                             </span>
@@ -42,7 +42,7 @@
                         <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Kursus Kilat</span>
+                            <span class="info-box-text">Kursus Gratis</span>
                             <span class="info-box-number">
                                 <?= $jumlah['kilat'] ?></span>
                         </div>
@@ -103,4 +103,4 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url('assets/admin/') ?>dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<?= base_url('assets/admin/') ?>dist/js/pages/dashboard2.js"></script>
+<!-- <script src="<?= base_url('assets/admin/') ?>dist/js/pages/dashboard2.js"></script> -->

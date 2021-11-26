@@ -106,7 +106,7 @@
                            </tr>
                            <tr>
                               <td colspan="3">
-                                 <a target="_blank" href="https://wa.me/6285732775490?text=` + send + `" class="btn btn-sm btn-success"><i class="fab fa-whatsapp"></i> Konfirmasi</a>
+                                 <a target="_blank" href="https://wa.me/6285784671374?text=` + send + `" class="btn btn-sm btn-success"><i class="fab fa-whatsapp"></i> Konfirmasi</a>
                               </td>
                            </tr>
                            <tr>

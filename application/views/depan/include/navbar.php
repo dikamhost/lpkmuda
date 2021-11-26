@@ -9,10 +9,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
          <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-               <a class="nav-link" href="<?= base_url('kejuruan') ?>"><i class="fas fa-address-book"></i> Kejuruan</a>
+               <a class="nav-link" href="<?= base_url('kejuruan') ?>"><i class="fas fa-address-book"></i> Bersertifikat</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="<?= base_url('kilat') ?>"><i class="fas fa-address-card"></i> Kilat</a>
+               <a class="nav-link" href="<?= base_url('kilat') ?>"><i class="fas fa-address-card"></i> Gratis</a>
             </li>
             <li class="nav-item">
                <a class="nav-link" href="<?= base_url() ?>#tentang"><i class="fas fa-archive"></i> Tentang</a>
