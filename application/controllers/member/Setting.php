@@ -57,7 +57,9 @@ class Setting extends CI_Controller
                   $foto = $this->db->select('mbr_foto')->where('mbr_id', $_POST['mbr_id'])->get('system_members')->row()->mbr_foto;
                   if (!empty($data_foto['file_name'])) {
                      if (!empty($foto)) {
-                        unlink($config['upload_path'] . $foto);
+                        if (file_exists($config['upload_path'] . $foto)) {
+                           unlink($config['upload_path'] . $foto);
+                        }
                      }
                   }
                }

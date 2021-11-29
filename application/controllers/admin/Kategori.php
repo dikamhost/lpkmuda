@@ -7,7 +7,7 @@ class Kategori extends CI_Controller
     {
         parent::__construct();
         $this->appauth->is_logged_in();
-        $this->load->model('M_Datatables');
+        $this->load->model("private/app_query", "mod_data");
     }
 
     public function index()
@@ -19,35 +19,33 @@ class Kategori extends CI_Controller
 
     public function view_data()
     {
-        $this->load->library("datatables_ssp");
-        $table     = "kategori";
-        $key    = "ktg_id";
-        $cols = [
-            ["db" => "ktg_id",    "dt" => "ktg_id"],
-            ["db" => "ktg_nama",    "dt" => "ktg_nama"],
-            // ["db" => "ktg_order",    "dt" => "ktg_order"],
-            ["db" => "ktg_locked",    "dt" => "ktg_locked"],
-        ];
-        $_Conn = [
-            "user"     => $this->db->username,
-            "pass"     => $this->db->password,
-            "db"     => $this->db->database,
-            "host"     => $this->db->hostname,
-            "port"     => $this->db->port
-        ];
-        $join    =  null;
-        // $custome = ' ORDER BY ktg_order asc';
-        $custome = null;
-        $where    = "ktg_deleted_at IS NULL";
-        echo json_encode(
-            Datatables_ssp::complex($_POST, $_Conn, $table, $key, $cols, NULL, $where, $join, $custome)
-        );
+        $set_query["search"]    = ["a.ktg_nama"];
+        $set_query["table"]     = "blog_kategori a";
+        $set_query["select"]    = "*";
+        $set_query["join"]      = [];
+        $set_query["where"]     = ["ktg_deleted_at" => null];
+        $set_query["order"]     = ["ktg_nama" => "ASC"];
+        if (isset($_POST["order"])) {
+            $set_query["order"]      = [null, null, 'ktg_nama'];
+        }
+        $query      = $this->mod_data->getData_table($set_query)->result_array();
+        $output      = [];
+        $count_data   = 0;
+        if ($query) {
+            $output = $query;
+            $count_data   = $this->mod_data->getData_count($set_query);
+        }
+        $return["draw"]            = $_POST["draw"];
+        $return["recordsTotal"]      = count($output);
+        $return["recordsFiltered"]   = $count_data;
+        $return["data"]            = $output;
+        echo json_encode($return, true);
     }
 
     public function getByID()
     {
         if (isset($_POST['ktg_id'])) {
-            $data = $this->db->get_where('kategori', ['ktg_id' => $_POST['ktg_id']])->row_array();
+            $data = $this->db->get_where('blog_kategori', ['ktg_id' => $_POST['ktg_id']])->row_array();
             if ($data) {
                 echo json_encode(['status' => 1, 'pesan' => 'Berhasil ambil data', 'data' => $data]);
             } else {
@@ -67,7 +65,7 @@ class Kategori extends CI_Controller
                 $ktg_locked = 0;
             }
             $this->db->where('ktg_id', $_POST['ktg_id']);
-            $query = $this->db->update('kategori', ['ktg_locked' => $ktg_locked]);
+            $query = $this->db->update('blog_kategori', ['ktg_locked' => $ktg_locked]);
             if ($query) {
                 echo json_encode(['status' => 1]);
             } else {
@@ -87,17 +85,17 @@ class Kategori extends CI_Controller
                     die;
                 }
             } else {
-                $max_order = $this->db->select('max(ktg_order) as max_ord')->get('kategori')->row_array()['max_ord'];
+                $max_order = $this->db->select('max(ktg_order) as max_ord')->get('blog_kategori')->row_array()['max_ord'];
                 if ($_POST['ktg_order'] >= $max_order) {
                     die;
                 }
                 $ktg_order = $_POST['ktg_order'] + 1;
             }
             $this->db->where('ktg_order', $ktg_order);
-            $query = $this->db->update('kategori', ['ktg_order' => $_POST['ktg_order']]);
+            $query = $this->db->update('blog_kategori', ['ktg_order' => $_POST['ktg_order']]);
             if ($query) {
                 $this->db->where('ktg_id', $_POST['ktg_id']);
-                $query2 = $this->db->update('kategori', ['ktg_order' => $ktg_order]);
+                $query2 = $this->db->update('blog_kategori', ['ktg_order' => $ktg_order]);
                 if ($query2) {
                     echo json_encode(['status' => 1]);
                 } else {
@@ -114,7 +112,7 @@ class Kategori extends CI_Controller
     {
         if (isset($_POST['ktg_id'])) {
             $this->db->where('ktg_id', $_POST['ktg_id']);
-            $query = $this->db->update('kategori', ['ktg_deleted_at' => date('Y-m-d H:i:s')]);
+            $query = $this->db->update('blog_kategori', ['ktg_deleted_at' => date('Y-m-d H:i:s')]);
             if ($query) {
                 echo json_encode(['status' => 1]);
             } else {
@@ -137,12 +135,12 @@ class Kategori extends CI_Controller
             );
             if (!empty($_POST['ktg_id'])) {
                 $this->db->where('ktg_id', $_POST['ktg_id']);
-                $query = $this->db->update('kategori', $data);
+                $query = $this->db->update('blog_kategori', $data);
             } else {
-                $data['ktg_id'] = GENERATOR['kategori'] . "-" . random_string("alnum", 10);
+                $data['ktg_id'] = GENERATOR['blog_kategori'] . "-" . random_string("alnum", 10);
                 $data['ktg_locked'] = 0;
-                // $data['ktg_order'] = $this->db->select('max(ktg_order) as ktg_order')->get('kategori')->row_array()['ktg_order'] + 1;
-                $query = $this->db->insert('kategori', $data);
+                // $data['ktg_order'] = $this->db->select('max(ktg_order) as ktg_order')->get('blog_kategori')->row_array()['ktg_order'] + 1;
+                $query = $this->db->insert('blog_kategori', $data);
             }
             if ($query) {
                 echo json_encode(array('status' => 1, 'pesan' => 'Berhasil disimpan !!'));
@@ -166,7 +164,7 @@ class Kategori extends CI_Controller
         if (isset($_POST['ktg_id'])) {
             $this->db->where('ktg_id !=', $_POST['ktg_id']);
         }
-        $ktg_slug = $this->db->get('kategori')->row_array();
+        $ktg_slug = $this->db->get('blog_kategori')->row_array();
         if ($ktg_slug) {
             $array = array(
                 'error'   => true,

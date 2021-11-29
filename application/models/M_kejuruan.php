@@ -6,17 +6,18 @@ class M_kejuruan extends CI_Model
       parent::__construct();
    }
 
+   private $page = 8;
    function getKejuruan($start = null)
    {
       if ($start) {
-         $start = ($start * 8) - 8;
-         $this->db->limit(8, $start);
+         $start = ($start * $this->page) - $this->page;
+         $this->db->limit($this->page, $start);
       } else {
-         $this->db->limit(8);
+         $this->db->limit($this->page);
       }
       $data = $this->kejuruan();
       $this->load->library('pagination');
-      $config = $this->getConfig($data);
+      $config = $this->getConfig();
       $this->pagination->initialize($config);
       $data['pagination'] = $this->pagination->create_links();
       return $data;
@@ -46,6 +47,10 @@ class M_kejuruan extends CI_Model
       $config['full_tag_close'] = '</ul>';
       $config['num_tag_open'] = '<li class="page-item">';
       $config['num_tag_close'] = '</li>';
+      $config['first_link'] = '<<';
+      $config['last_link'] = '>>';
+      $config['first_tag_open'] = '<li class="page-item">';
+      $config['first_tag_close'] = '</li>';
       $config['last_tag_open'] = '<li class="page-item">';
       $config['last_tag_close'] = '</li>';
       $config['prev_tag_open'] = '<li class="page-item">';
@@ -56,7 +61,7 @@ class M_kejuruan extends CI_Model
       $config['cur_tag_close'] = '</a></li>';
       $config['base_url'] = base_url('kejuruan/index/');
       $config['total_rows'] = count($this->kejuruan()['app_kejuruan']);
-      $config['per_page'] = 8;
+      $config['per_page'] = $this->page;
       $config['use_page_numbers'] = TRUE;
       return $config;
    }

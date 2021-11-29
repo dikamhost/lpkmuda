@@ -44,7 +44,7 @@
                               <label class="custom-file-label" for="customFile">Pilih file</label>
                             </div>
                             <div id="<?= $s['conf_char'] ?>-display">
-                              <?= ($s['conf_value']) ? '<img id="blah-' . $s['conf_char'] . '" src="' . STORAGEPATH . '/system/' . $s['conf_value'] . '" alt="Mengambil Foto ..." class="mt-2" style="height: 200px;">' : '' ?>
+                              <?= ($s['conf_value']) ? '<img id="blah-' . $s['conf_char'] . '" src="' . STORAGEPATH . '/system/' . $s['conf_value'] . '" alt="Mengambil Foto ..." class="mt-2" style="max-height: 200px; max-width: 100%;">' : '' ?>
                             </div>
                           <?php elseif ($s['conf_type'] == 'select') : ?>
                             <select class="form-control select2" style="width: 100%" id="usr_group" data-placeholder="<?= $s['conf_name'] ?>" id="<?= $s['conf_char'] ?>" name="<?= $s['conf_char'] ?>">

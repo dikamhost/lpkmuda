@@ -7,7 +7,7 @@ class Artikel extends CI_Controller
     {
         parent::__construct();
         $this->appauth->is_logged_in();
-        $this->load->model('M_Datatables');
+        $this->load->model("private/app_query", "mod_data");
     }
 
     public function index()
@@ -19,32 +19,33 @@ class Artikel extends CI_Controller
 
     public function view_data()
     {
-        $this->load->library("datatables_ssp");
-        $table     = "artikel a";
-        $key    = "art_id";
-        $cols = [
-            ["db" => "art_id",    "dt" => "art_id"],
-            ["db" => "art_gambar",    "dt" => "art_gambar"],
-            ["db" => "art_isi",    "dt" => "art_isi"],
-            ["db" => "art_locked",    "dt" => "art_locked"],
-            ["db" => "art_headline",    "dt" => "art_headline"],
-            ["db" => "art_tgl_upload",    "dt" => "art_tgl_upload"],
-            ["db" => "art_judul",    "dt" => "art_judul"],
-            ["db" => "ktg_locked",    "dt" => "ktg_locked"]
+        $set_query["search"]    = ["a.art_judul"];
+        $set_query["table"]     = "blog_artikel a";
+        $set_query["select"]    = "*";
+        $set_query["join"]      = [
+            [
+                "join"    => "blog_kategori b",
+                "on"    => "b.ktg_id = a.art_ktg_id",
+                "type"    => "left"
+            ],
         ];
-        $_Conn = [
-            "user"     => $this->db->username,
-            "pass"     => $this->db->password,
-            "db"     => $this->db->database,
-            "host"     => $this->db->hostname,
-            "port"     => $this->db->port
-        ];
-        $join    = "left join kategori b on a.art_ktg_id=b.ktg_id";
-        $custome = null;
-        $where    = "a.art_deleted_at is null";
-        echo json_encode(
-            Datatables_ssp::complex($_POST, $_Conn, $table, $key, $cols, NULL, $where, $join, $custome)
-        );
+        $set_query["where"]     = ["art_deleted_at" => null];
+        $set_query["order"]     = ["art_tgl_upload" => "DESC"];
+        if (isset($_POST["order"])) {
+            $set_query["order"]      = [null, null, null, 'art_judul', null, null];
+        }
+        $query      = $this->mod_data->getData_table($set_query)->result_array();
+        $output      = [];
+        $count_data   = 0;
+        if ($query) {
+            $output = $query;
+            $count_data   = $this->mod_data->getData_count($set_query);
+        }
+        $return["draw"]            = $_POST["draw"];
+        $return["recordsTotal"]      = count($output);
+        $return["recordsFiltered"]   = $count_data;
+        $return["data"]            = $output;
+        echo json_encode($return, true);
     }
 
     public function lock()
@@ -56,7 +57,7 @@ class Artikel extends CI_Controller
                 $art_locked = 0;
             }
             $this->db->where('art_id', $_POST['art_id']);
-            $query = $this->db->update('artikel', ['art_locked' => $art_locked]);
+            $query = $this->db->update('blog_artikel', ['art_locked' => $art_locked]);
             if ($query) {
                 echo json_encode(['status' => 1]);
             } else {
@@ -73,12 +74,12 @@ class Artikel extends CI_Controller
             if ($_POST['art_headline'] == 0) {
                 $art_headline = 1;
                 $this->db->where('art_id !=', $_POST['art_id']);
-                $this->db->update('artikel', ['art_headline' => 0]);
+                $this->db->update('blog_artikel', ['art_headline' => 0]);
             } else {
                 $art_headline = 0;
             }
             $this->db->where('art_id', $_POST['art_id']);
-            $query = $this->db->update('artikel', ['art_headline' => $art_headline]);
+            $query = $this->db->update('blog_artikel', ['art_headline' => $art_headline]);
             if ($query) {
                 echo json_encode(['status' => 1]);
             } else {
@@ -117,20 +118,27 @@ class Artikel extends CI_Controller
                 }
             }
             if (!empty($_POST['art_id'])) {
-                $foto = $this->db->select('art_gambar')->where('art_id', $_POST['art_id'])->get('artikel')->row()->art_gambar;
+                $foto = $this->db->select('art_gambar')->where('art_id', $_POST['art_id'])->get('blog_artikel')->row()->art_gambar;
                 if (!empty($data_foto['file_name'])) {
                     if (!empty($foto)) {
-                        unlink($config['upload_path'] . $foto);
+                        if (file_exists($config['upload_path'] . $foto)) {
+                            unlink($config['upload_path'] . $foto);
+                        }
                     }
                 }
                 $this->db->where('art_id', $_POST['art_id']);
-                $query = $this->db->update('artikel', $data);
+                $query = $this->db->update('blog_artikel', $data);
+                if ($query) {
+                    $this->setTags($_POST['art_tag_id'], $_POST['art_id'], 'delete');
+                }
+                $data['art_id'] = $_POST['art_id'];
             } else {
-                $data['art_id'] = GENERATOR['artikel'] . "-" . random_string("alnum", 10);
+                $data['art_id'] = GENERATOR['blog_artikel'] . "-" . random_string("alnum", 10);
                 $data['art_usr_id'] = $_SESSION['system_users']['usr_id'];
-                $query = $this->db->insert('artikel', $data);
+                $query = $this->db->insert('blog_artikel', $data);
             }
             if ($query) {
+                $this->setTags($_POST['art_tag_id'], $data['art_id'], 'insert');
                 echo json_encode(array('status' => 1, 'pesan' => 'Berhasil disimpan !!'));
             } else {
                 echo json_encode(array('status' => 0, 'pesan' => 'Gagal disimpan !!'));
@@ -144,6 +152,24 @@ class Artikel extends CI_Controller
                 'message' => form_error('message')
             );
             echo json_encode(array('status' => 3, 'pesan' => $array));
+        }
+    }
+
+    private function setTags($tags, $art, $param)
+    {
+        if (isset($tags)) {
+            if ($param == 'insert') {
+                foreach ($tags as $t) {
+                    $data = [
+                        'art_id' => $art,
+                        'tag_id' => $t
+                    ];
+                    $this->db->insert('blog_artikel_tags', $data);
+                }
+            } else if ($param == 'delete') {
+                $this->db->where('art_id', $art)
+                    ->delete('blog_artikel_tags');
+            }
         }
     }
 
@@ -187,7 +213,7 @@ class Artikel extends CI_Controller
         if (isset($_POST['art_id'])) {
             $this->db->where('art_id !=', $_POST['art_id']);
         }
-        $art_slug = $this->db->get('artikel')->row_array();
+        $art_slug = $this->db->get('blog_artikel')->row_array();
         if ($art_slug) {
             $array = array(
                 'error'   => true,
@@ -204,7 +230,21 @@ class Artikel extends CI_Controller
             ->where('ktg_locked', 0)
             ->where('ktg_deleted_at', null)
             ->order_by('ktg_nama', 'asc')
-            ->get('kategori')->result_array();
+            ->get('blog_kategori')->result_array();
+        if ($data) {
+            echo json_encode(array('status' => 1, 'pesan' => 'Berhasil ambil data !!', 'data' => $data));
+        } else {
+            echo json_encode(array('status' => 0, 'pesan' => 'Gagal ambil data !!'));
+        }
+    }
+
+    public function getTags()
+    {
+        $data = $this->db
+            ->where('tag_locked', 0)
+            ->where('tag_deleted_at', null)
+            ->order_by('tag_nama', 'asc')
+            ->get('blog_tags')->result_array();
         if ($data) {
             echo json_encode(array('status' => 1, 'pesan' => 'Berhasil ambil data !!', 'data' => $data));
         } else {
@@ -215,8 +255,14 @@ class Artikel extends CI_Controller
     public function getByID()
     {
         if (isset($_POST['art_id'])) {
-            $data = $this->db->get_where('artikel', ['art_id' => $_POST['art_id']])->row_array();
+            $data = $this->db
+                ->get_where('blog_artikel', ['art_id' => $_POST['art_id']])->row_array();
             if ($data) {
+                $data['tags'] = $this->db
+                    ->where('art_id', $data['art_id'])
+                    ->join('blog_tags b', 'a.tag_id=b.tag_id')
+                    ->get('blog_artikel_tags a')
+                    ->result_array();
                 echo json_encode(['status' => 1, 'pesan' => 'Berhasil ambil data', 'data' => $data]);
             } else {
                 echo json_encode(['status' => 0, 'pesan' => 'Gagal ambil data']);
@@ -230,7 +276,7 @@ class Artikel extends CI_Controller
     {
         if (isset($_POST['art_id'])) {
             $this->db->where('art_id', $_POST['art_id']);
-            $query = $this->db->update('artikel', ['art_deleted_at' => date('Y-m-d H:i:s')]);
+            $query = $this->db->update('blog_artikel', ['art_deleted_at' => date('Y-m-d H:i:s')]);
             if ($query) {
                 echo json_encode(['status' => 1]);
             } else {
@@ -255,8 +301,8 @@ class Artikel extends CI_Controller
                 'art_usr_id' => "didikam",
             );
             $data['art_gambar'] = "artikel-33333-2021_09_25_090953.jpg";
-            $data['art_id'] = GENERATOR['artikel'] . "-" . random_string("alnum", 10);
-            $query = $this->db->insert('artikel', $data);
+            $data['art_id'] = GENERATOR['blog_artikel'] . "-" . random_string("alnum", 10);
+            $query = $this->db->insert('blog_artikel', $data);
             echo $judul . "<br>";
         }
     }

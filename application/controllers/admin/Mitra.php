@@ -178,7 +178,9 @@ class Mitra extends CI_Controller
             $foto = $this->db->select('mtr_image')->where('mtr_id', $_POST['mtr_id'])->get('app_mitra')->row()->mtr_image;
             if (!empty($data_foto['file_name'])) {
                if (!empty($foto)) {
-                  unlink($config['upload_path'] . $foto);
+                  if (file_exists($config['upload_path'] . $foto)) {
+                     unlink($config['upload_path'] . $foto);
+                  }
                }
             }
             $this->db->where('mtr_id', $_POST['mtr_id']);

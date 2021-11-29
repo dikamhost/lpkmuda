@@ -44,7 +44,7 @@
                         <input type="password" name="password" id="password" class="form-control" placeholder="Password">
                         <div class="input-group-append">
                             <div class="input-group-text" id="lock">
-                                <span id="loc" class="fas fa-lock"></span>
+                                <span id="loc" class="fas fa-eye-slash"></span>
                             </div>
                         </div>
                         <div class="text-invalid" id="password_error"></div>
@@ -76,7 +76,7 @@
                 $('#loc').attr("class", 'fas fa-eye');
             } else {
                 $('#password').attr("type", 'password');
-                $('#loc').attr("class", 'fas fa-lock');
+                $('#loc').attr("class", 'fas fa-eye-slash');
             }
         });
 

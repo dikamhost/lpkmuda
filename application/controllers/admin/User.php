@@ -133,7 +133,9 @@ class User extends CI_Controller
                 $foto = $this->db->select('usr_foto')->where('usr_id', $_POST['usr_id'])->get('system_users')->row()->usr_foto;
                 if (!empty($data_foto['file_name'])) {
                     if (!empty($foto)) {
-                        unlink($config['upload_path'] . $foto);
+                        if (file_exists($config['upload_path'] . $foto)) {
+                            unlink($config['upload_path'] . $foto);
+                        }
                     }
                 }
                 if (!empty($_POST['usr_password'])) {

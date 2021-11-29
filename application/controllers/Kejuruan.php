@@ -14,16 +14,32 @@ class Kejuruan extends CI_Controller
    {
       $start = $this->uri->segment(3);
       $data['title']       = 'Kejuruan';
-      $data['page']        = 'depan/kejuruan/index';
-      $data['data']        = $this->M_kejuruan->getKejuruan($start)['app_kejuruan'];
-      $data['pagination']  = $this->M_kejuruan->getKejuruan()['pagination'];
+      $load = cekStart($start);
+      if ($load) {
+         $data['page']        = 'depan/kejuruan/index';
+         $data['data']        = $this->M_kejuruan->getKejuruan($start)['app_kejuruan'];
+         $data['pagination']  = $this->M_kejuruan->getKejuruan()['pagination'];
+      } else {
+         $data['page']        = 'belajar/error/404';
+      }
       $this->load->view('depan/template', $data);
    }
 
    public function lihat($slug = null)
    {
+      $data['kelas']       = false;
       $data['kejuruan']    = $this->M_kejuruan->getKejuruanLihat($slug);
       if ($data['kejuruan']) {
+         if (isset($_SESSION['system_members']['mbr_id'])) {
+            $app_kelas_wr = [
+               'kls_mbr_id'   => $_SESSION['system_members']['mbr_id'],
+               'kls_kjr_id'   => $data['kejuruan']['kjr_id'],
+               'kls_locked'   => 0,
+               'kls_trf_id !='   => null,
+               'kls_lunas !=' => null
+            ];
+            $data['kelas'] = $this->db->get_where('app_kelas', $app_kelas_wr)->row_array();
+         }
          $data['title']       = 'Kejuruan | ' . $data['kejuruan']['kjr_nama'];
          $data['page']        = 'depan/kejuruan/lihat';
       } else {

@@ -38,7 +38,7 @@
                            </div>
                            <a href="<?= base_url('belajar/' . $k['kjr_slug']) ?>" class="btn btn-success"><i class="fas fa-book-reader"></i> Lanjut Belajar</a>
                            <hr class="my-2">
-                           <div class="mt-2 mb-3" style="color: #696666;">
+                           <div class="mt-2" style="color: #696666;">
                               <p class="mt-2 mb-1">Lisensi Kepada :</p>
                               <strong class="mt-0"><?= $k['mbr_name'] ?></strong> <span>| <?= $k['mbr_email'] ?></span>
                               <p class="mt-1 tgl-license"><i>(<?= $k['kls_lunas'] ?>)</i></p>
@@ -59,10 +59,17 @@
                      <?php endif; ?>
                   </div>
                   <div class="col-md-12">
-                     <hr class="mt-0 mb-3">
+                     <hr class="mt-0 my-3">
                   </div>
                </div>
             <?php endforeach; ?>
+            <div class="row">
+               <div class="col-md-12">
+                  <nav aria-label="Page navigation example">
+                     <?php echo $pagination ?>
+                  </nav>
+               </div>
+            </div>
          <?php else : ?>
             <div class="row">
                <div class="col-md-4 text-center">

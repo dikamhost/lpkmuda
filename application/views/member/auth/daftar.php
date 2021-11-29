@@ -8,7 +8,7 @@
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <link rel="stylesheet" href="<?= base_url() ?>assets/member/custome.css">
-<div class="container-fluid pb-5" style="background-color: #109c30;">
+<div class="container-fluid pb-5" style="background-color: #a2e2b0;">
    <div class="row justify-content-center">
       <div class="col-md-4 mt-4">
          <div class="card">

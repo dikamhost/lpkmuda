@@ -3,6 +3,9 @@
     max-height: 5rem;
   }
 </style>
+<!-- Select2 -->
+<link rel="stylesheet" href="<?= base_url('assets/admin/') ?>plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="<?= base_url('assets/admin/') ?>plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -40,7 +43,7 @@
                 <thead>
                   <tr>
                     <th style="width:5%;">No</th>
-                    <th class="text-center" style="width: 15%;">Aksi</th>
+                    <th class="text-center" style="width: 20%;">Aksi</th>
                     <th class="text-center" style="max-width:3rem;">Gambar</th>
                     <th class="text-center" style="width: 40%;">Judul</th>
                     <th class="text-center" style="width: 15%;">Tanggal Upload</th>
@@ -82,10 +85,7 @@
       language: table_language(),
       "autoWidth": false,
       "ordering": true, // Set true agar bisa di sorting
-      "order": [
-        [4, 'desc'],
-        [3, 'asc']
-      ], // Default sortingnya berdasarkan kolom / field ke 0 (paling pertama)
+      "order": [], // Default sortingnya berdasarkan kolom / field ke 0 (paling pertama)
       "ajax": {
         "url": BASE_URL + "admin/artikel/view_data", // URL file untuk proses select datanya
         "type": "POST"
@@ -112,11 +112,11 @@
             } else {
               btn += `<button type="button" class="ml-1 btn btn-success btn-sm lock"  data-id="` + row.art_id + `" data-lock="` + row.art_locked + `"><i class="fas fa-lock-open" title="Kunci"></i></button>`;
             }
-            if (row.art_headline == 1) {
-              btn += `<button type="button" class="ml-1 btn btn-info btn-sm headline"  data-id="` + row.art_id + `" data-headline="` + row.art_headline + `"><i class="fas fa-star" title="Batalkan headline"></i></button>`;
-            } else {
-              btn += `<button type="button" class="ml-1 btn btn-info btn-sm headline"  data-id="` + row.art_id + `" data-headline="` + row.art_headline + `"><i class="far fa-star" title="Jadikan headline"></i></button>`;
-            }
+            // if (row.art_headline == 1) {
+            //   btn += `<button type="button" class="ml-1 btn btn-info btn-sm headline"  data-id="` + row.art_id + `" data-headline="` + row.art_headline + `"><i class="fas fa-star" title="Batalkan headline"></i></button>`;
+            // } else {
+            //   btn += `<button type="button" class="ml-1 btn btn-info btn-sm headline"  data-id="` + row.art_id + `" data-headline="` + row.art_headline + `"><i class="far fa-star" title="Jadikan headline"></i></button>`;
+            // }
             btn += `<button type="button" class="ml-1 btn btn-warning btn-sm edit" data-id="` + row.art_id + `" title="Edit"><i class="fas fa-edit"></i></button>`;
             btn += `<button type="button" class="ml-1 btn btn-danger btn-sm hapus" data-id="` + row.art_id + `" title="Hapus"><i class="fas fa-trash"></i></button>`;
             return btn;
@@ -165,25 +165,25 @@
         }
       });
     });
-  $(document).off("click", "#tb_artikel button.headline")
-    .on("click", "#tb_artikel button.headline", function(e) {
-      $.ajax({
-        type: "POST",
-        url: BASE_URL + "admin/artikel/headline",
-        dataType: "JSON",
-        data: {
-          art_id: $(this).data('id'),
-          art_headline: $(this).data('headline')
-        },
-        success: function(data) {
-          if (data.status == 1) {
-            tabel.ajax.reload(null, true);
-          } else {
-            toastr.error(data.pesan);
-          }
-        }
-      });
-    });
+  // $(document).off("click", "#tb_artikel button.headline")
+  //   .on("click", "#tb_artikel button.headline", function(e) {
+  //     $.ajax({
+  //       type: "POST",
+  //       url: BASE_URL + "admin/artikel/headline",
+  //       dataType: "JSON",
+  //       data: {
+  //         art_id: $(this).data('id'),
+  //         art_headline: $(this).data('headline')
+  //       },
+  //       success: function(data) {
+  //         if (data.status == 1) {
+  //           tabel.ajax.reload(null, true);
+  //         } else {
+  //           toastr.error(data.pesan);
+  //         }
+  //       }
+  //     });
+  //   });
   $(document).off("click", "#tb_artikel button.edit")
     .on("click", "#tb_artikel button.edit", function(e) {
       $.ajax({
@@ -197,6 +197,7 @@
           if (data.status == 1) {
             data = data.data;
             getKategori(data.art_ktg_id);
+            getTags(data.tags);
             $('input[name="art_id"]').val(data.art_id);
             $('input[name="art_judul"]').val(data.art_judul);
             tinyMCE.activeEditor.setContent(data.art_isi);
@@ -221,6 +222,7 @@
     .on("click", "button.tambah", function(e) {
       $('#dataModal').modal('show');
       getKategori();
+      getTags();
       $('#dataModalTitle').html('<i class="fas fa-plus-circle"></i> Tambah Data Pengguna');
       $(document).off("click", "#dataModalSave").on("click", "#dataModalSave", function(e) {
         simpan();
@@ -296,6 +298,27 @@
     });
   }
 
+  function getTags(tag_id = null) {
+    $.ajax({
+      type: "get",
+      url: "<?php echo base_url('admin/artikel/getTags') ?>",
+      success: function(data) {
+        data = JSON.parse(data);
+        data = data.data;
+        $('#art_tag_id').html('');
+        $.each(data, function(i, val) {
+          var t = `<option value="` + val.tag_id + `">` + val.tag_nama + `</option>`;
+          $('#art_tag_id').append(t);
+        });
+        var tag_set = [];
+        $.each(tag_id, function(i, val) {
+          tag_set.push(val.tag_id);
+        });
+        $('#art_tag_id').val(tag_set);
+      }
+    });
+  }
+
   $(document).off("hidden.bs.modal", "#dataModal")
     .on("hidden.bs.modal", "#dataModal", function(e) {
       tinyMCE.activeEditor.setContent('');
@@ -304,6 +327,8 @@
       $('input[name="art_id"]').val('');
       $('input[name="art_judul"]').val('').removeClass("is-valid").removeClass("is-invalid");
       $('input[name="art_isi"]').val('').removeClass("is-valid").removeClass("is-invalid");
+      $('input[name="art_ktg_id"]').val('').removeClass("is-valid").removeClass("is-invalid");
+      $('input[name="art_tag_id"]').val('').removeClass("is-valid").removeClass("is-invalid");
       $('input[name="art_gambar"]').val('').removeClass("is-valid").removeClass("is-invalid");
       $('#blah-art_gambar').attr("src", '<?= STORAGEPATH ?>' + '/no-image.jpg');
       $("#dataModalSave").prop("onclick", null).off("click");
@@ -365,6 +390,12 @@
                 <span class="text-invalid" id="art_ktg_id_error"></span>
               </div>
               <div class="form-group">
+                <label>Tags</label>
+                <select class="select2" name="art_tag_id[]" id="art_tag_id" multiple="multiple" data-placeholder="Pilih Tags" style="width: 100%;" data-dropdown-css-class="select2-purple">
+                </select>
+                <span class="text-invalid" id="art_tag_id_error"></span>
+              </div>
+              <div class="form-group">
                 <label>Foto</label>
                 <div class="input-group">
                   <input onchange="readURL(this, 'art_gambar');" name="art_gambar" type="file" accept="image/gif, image/jpeg, image/png" id="art_gambar">
@@ -384,4 +415,11 @@
       </div>
     </div>
   </div>
-</div>
+</div><!-- Select2 -->
+<script src="<?= base_url('assets/admin/') ?>plugins/select2/js/select2.full.min.js"></script>
+<script>
+  //Initialize Select2 Elements
+  $('.select2').select2({
+    theme: 'bootstrap4'
+  });
+</script>

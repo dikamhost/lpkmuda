@@ -10,13 +10,12 @@
                <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="<?= base_url('admin') ?>" class="text-success">Dashboard</a></li>
                   <li class="breadcrumb-item"><a href="<?= base_url('admin/materi') ?>" class="text-success">Materi</a></li>
-                  <li class="breadcrumb-item active"><?= $kejuruan['kjr_nama'] ?></li>
+                  <li class="breadcrumb-item active"><?= $sub_materi['mtr_nama'] ?></li>
                </ol>
             </div>
          </div>
       </div>
    </div>
-
    <!-- DataTables -->
    <link rel="stylesheet" href="<?= base_url('assets/admin/') ?>plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
    <link rel="stylesheet" href="<?= base_url('assets/admin/') ?>plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -34,7 +33,7 @@
                      <div class="col-md-4 text-right">
                         <button class="btn btn-success btn-sm mb-2 tambah"><i class="fas fa-plus"></i> Tambah</button>
                         <button class="btn btn-warning btn-sm mb-2 soal"><i class="fas fa-plus"></i> Soal</button>
-                        <a class="btn btn-secondary btn-sm mb-2" href="<?= base_url('admin/materi/kategori/' . $kejuruan['kjr_slug']) ?>"><i class="fas fa-arrow-circle-left"></i> Kembali</a>
+                        <a class="btn btn-secondary btn-sm mb-2" href="<?= base_url('admin/materi/detail/' . $sub_materi['mtr_slug']) ?>"><i class="fas fa-arrow-circle-left"></i> Kembali</a>
                      </div>
                   </div>
                   <!-- /.card-header -->
@@ -202,7 +201,6 @@
                   data = data.data;
                   $('input[name="mtr_id"]').val(data.mtr_id);
                   $('input[name="mtr_nama"]').val(data.mtr_nama);
-                  tinyMCE.activeEditor.setContent(data.mtr_isi);
                   $('#dataModal').modal('show');
                   $('#dataModalTitle').html('<i class="fas fa-edit"></i> Edit Detail Materi');
                   $(document).off("click", "#dataModalSave").on("click", "#dataModalSave", function(e) {
@@ -297,7 +295,6 @@
 
    $(document).off("hidden.bs.modal", "#dataModal")
       .on("hidden.bs.modal", "#dataModal", function(e) {
-         tinyMCE.activeEditor.setContent('');
          $('.text-invalid').html('');
          $('#dataModalTitle').html('');
          $('input[name="mtr_id"]').val('');
@@ -305,29 +302,6 @@
          $('#mtr_isi').val('').removeClass("is-valid").removeClass("is-invalid");
          $("#dataModalSave").prop("onclick", null).off("click");
       });
-</script>
-<script src="<?= base_url('assets/plugins/') ?>tinymce/tinymce.min.js"></script>
-<script>
-   tinymce.init({
-      selector: '#mtr_isi',
-      height: "480",
-      plugins: [
-         "advlist autolink link image lists charmap print preview hr anchor pagebreak noneditable",
-         "searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
-         "table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
-      ],
-      toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
-      toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
-      image_advtab: true,
-      external_filemanager_path: BASE_URL + "assets/filemanager/",
-      filemanager_title: "Responsive Filemanager",
-      external_plugins: {
-         "filemanager": BASE_URL + "assets/filemanager/plugin.min.js"
-      },
-      filemanager_access_key: "<?= $this->session->fm_key ?>",
-      relative_urls: false,
-      remove_script_host: false
-   });
 </script>
 <!-- Modal -->
 <div class="modal fade" id="dataModal" role="dialog" aria-labelledby="dataModalTitle" aria-hidden="true">
@@ -346,16 +320,11 @@
                      <input type="hidden" name="mtr_id" value="">
                      <input type="hidden" name="mtr_kjr_id" value="<?= $materi['mtr_kjr_id'] ?>">
                      <input type="hidden" name="mtr_index" value="<?= $materi['mtr_id'] ?>">
-                     <input type="hidden" name="mtr_kategori" value="1">
+                     <input type="hidden" name="mtr_kategori" value="3">
                      <div class="form-group">
                         <label>Nama Materi</label>
                         <input type="text" id="mtr_nama" value="" name="mtr_nama" class="form-control" placeholder="Nama Materi">
                         <span class="text-invalid" id="mtr_nama_error"></span>
-                     </div>
-                     <div class="form-group">
-                        <label>Isi</label>
-                        <textarea name="mtr_isi" id="mtr_isi"></textarea>
-                        <span class="text-invalid" id="mtr_isi_error"></span>
                      </div>
                   </div>
                </div>
@@ -364,40 +333,6 @@
          <div class="modal-footer text-center">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" style="float: right;"><i class="fas fa-times-circle"></i> Close</button>
             <button type="button" class="btn btn-success" id="dataModalSave"><i class="fas fa-save"></i> Simpan</button>
-         </div>
-      </div>
-   </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="dataSoalModal" role="dialog" aria-labelledby="dataSoalModalTitle" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered" id="dataSoalModalDialog" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h4 class="modal-title" id="dataSoalModalTitle"></h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body" id="dataSoalModalBody">
-            <form id="form-data-soal">
-               <div class="row">
-                  <div class="col-md-12">
-                     <input type="hidden" name="mtr_id" value="">
-                     <input type="hidden" name="mtr_kjr_id" value="<?= $materi['mtr_kjr_id'] ?>">
-                     <input type="hidden" name="mtr_index" value="<?= $materi['mtr_id'] ?>">
-                     <input type="hidden" name="mtr_kategori" value="2">
-                     <div class="form-group">
-                        <label>Nama Soal</label>
-                        <input type="text" value="" name="mtr_nama" class="form-control" placeholder="Nama Soal">
-                        <span class="text-invalid" id="mtr_nama_error"></span>
-                     </div>
-                  </div>
-               </div>
-            </form>
-         </div>
-         <div class="modal-footer text-center">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="float: right;"><i class="fas fa-times-circle"></i> Close</button>
-            <button type="button" class="btn btn-success" id="dataSoalModalSave"><i class="fas fa-save"></i> Simpan</button>
          </div>
       </div>
    </div>

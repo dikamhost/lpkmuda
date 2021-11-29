@@ -142,6 +142,7 @@ class Materi extends CI_Controller
          echo json_encode(['status' => 0, 'pesan' => 'Gagal simpan, data kosong']);
       }
    }
+
    public function getByID()
    {
       if (isset($_POST['mtr_id'])) {
@@ -200,10 +201,13 @@ class Materi extends CI_Controller
             'mtr_nama'           => $_POST['mtr_nama'],
             'mtr_slug'           => $slug,
             'mtr_kjr_id'           => $_POST['mtr_kjr_id'],
+            'mtr_kategori'           => $_POST['mtr_kategori'],
          );
          if (isset($_POST['mtr_index'])) {
             $data['mtr_index'] = $_POST['mtr_index'];
-            $data['mtr_isi'] = $_POST['mtr_isi'];
+            if ($_POST['mtr_kategori'] == 1) {
+               $data['mtr_isi'] = $_POST['mtr_isi'];
+            }
          }
          if (!empty($_POST['mtr_id'])) {
             $this->db->where('mtr_id', $_POST['mtr_id']);
@@ -246,7 +250,7 @@ class Materi extends CI_Controller
    private function get_validation()
    {
       $this->load->library('form_validation');
-      if (isset($_POST['mtr_index'])) {
+      if (isset($_POST['mtr_index']) && $_POST['mtr_kategori'] == 1) {
          $config = [
             [
                'field' => 'mtr_nama',
@@ -266,16 +270,29 @@ class Materi extends CI_Controller
             ],
          ];
       } else {
-         $config = [
-            [
-               'field' => 'mtr_nama',
-               'label' => 'Nama kategori',
-               'rules' => 'required',
-               'errors' => [
-                  'required' => 'Nama kategori harus diisi',
+         if ($_POST['mtr_kategori'] == 1) {
+            $config = [
+               [
+                  'field' => 'mtr_nama',
+                  'label' => 'Nama kategori',
+                  'rules' => 'required',
+                  'errors' => [
+                     'required' => 'Nama kategori harus diisi',
+                  ],
                ],
-            ],
-         ];
+            ];
+         } else {
+            $config = [
+               [
+                  'field' => 'mtr_nama',
+                  'label' => 'Nama soal',
+                  'rules' => 'required',
+                  'errors' => [
+                     'required' => 'Nama soal harus diisi',
+                  ],
+               ],
+            ];
+         }
       }
       $this->form_validation->set_rules($config);
       return $this->form_validation->run();
@@ -296,9 +313,14 @@ class Materi extends CI_Controller
       }
       $mtr_slug = $this->db->get('app_materi')->row_array();
       if ($mtr_slug) {
+         if ($_POST['mtr_kategori'] == 1) {
+            $pesan = "Nama kategori sudah digunakan";
+         } else {
+            $pesan = "Nama soal sudah digunakan";
+         }
          $array = array(
             'error'   => true,
-            'mtr_nama' => "Nama kategori sudah digunakan"
+            'mtr_nama' => $pesan
          );
          echo json_encode(array('status' => 3, 'pesan' => $array));
          die;
@@ -316,6 +338,23 @@ class Materi extends CI_Controller
          $data['kejuruan'] = $this->db->where('kjr_id', $data['materi']['mtr_kjr_id'])->get('app_kejuruan')->row_array();
          $data['title'] = 'Detail Materi';
          $data['page'] = 'admin/materi/detail';
+         $this->load->view('admin/template', $data);
+      } else {
+         redirect('admin/myerror/e404');
+      }
+   }
+
+   // soal materi
+   public function soal($mtr_slug = null)
+   {
+      $data['materi'] = $this->db
+         ->where('mtr_deleted_at', null)
+         ->where('mtr_slug', $mtr_slug)
+         ->get('app_materi')->row_array();
+      if ($data['materi']) {
+         $data['sub_materi'] = $this->db->where('mtr_id', $data['materi']['mtr_index'])->get('app_materi')->row_array();
+         $data['title'] = 'Soal Materi';
+         $data['page'] = 'admin/materi/soal';
          $this->load->view('admin/template', $data);
       } else {
          redirect('admin/myerror/e404');

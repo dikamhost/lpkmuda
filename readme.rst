@@ -16,13 +16,11 @@ php-gd
 composer install
 
 
-mkdir artikel \
-img \
+cd storage && mkdir artikel \
 kejuruan \
 logo \
 member \
 mitra \
-pembelajar \
 QRcode \
 sertifikat \
 slider \

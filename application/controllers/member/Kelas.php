@@ -13,10 +13,17 @@ class Kelas extends CI_Controller
 
    public function index()
    {
+      $start = $this->uri->segment(4);
       $data['title'] = 'Kelas';
-      $data['memberpage']  = 'member/kelas/index';
-      $data['page']  = 'member/template/index';
-      $data['kelas']    = $this->m_kelas->getKelas();
+      $load = cekStart($start);
+      if ($load) {
+         $data['kelas']    = $this->m_kelas->getKelas($start)['app_kelas'];
+         $data['memberpage']  = 'member/kelas/index';
+         $data['pagination']  = $this->m_kelas->getKelas()['pagination'];
+         $data['page']  = 'member/template/index';
+      } else {
+         $data['page']        = 'belajar/error/404';
+      }
       $this->load->view('depan/template', $data);
    }
 
@@ -26,7 +33,11 @@ class Kelas extends CI_Controller
       $data['memberpage']  = 'member/kelas/bayar';
       $data['page']  = 'member/template/index';
       $data['kelas']    = $this->m_kelas->getKejuruanBayar($kjr_slug);
-      $data['bayar']    = $this->db->get('app_transfer')->result_array();
+      $app_transfer_wr =   [
+         'trf_locked' => 0,
+         'trf_deleted_at' => null
+      ];
+      $data['bayar']    = $this->db->get_where('app_transfer', $app_transfer_wr)->result_array();
       $this->load->view('depan/template', $data);
    }
 

@@ -186,7 +186,9 @@ class Testimoni extends CI_Controller
             $foto = $this->db->select('tst_image')->where('tst_id', $_POST['tst_id'])->get('app_testimoni')->row()->tst_image;
             if (!empty($data_foto['file_name'])) {
                if (!empty($foto)) {
-                  unlink($config['upload_path'] . $foto);
+                  if (file_exists($config['upload_path'] . $foto)) {
+                     unlink($config['upload_path'] . $foto);
+                  }
                }
             }
             $this->db->where('tst_id', $_POST['tst_id']);

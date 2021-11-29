@@ -47,7 +47,7 @@ class Config extends CI_Controller
                 $config['allowed_types']        = 'jpg|png|jpeg|JPG|PNG|JPEG';
                 $config['max_size']             = 2048;
                 $config['remove_spaces']        = TRUE;
-                $config['file_name']            = $file;
+                $config['file_name']            = $file . "-" . date("Y_m_d His");
                 $config['overwrite']            = true;
                 $this->upload->initialize($config);
                 if (!$this->upload->do_upload($file)) {
@@ -55,15 +55,26 @@ class Config extends CI_Controller
                     die;
                 } else {
                     $data_foto = $this->upload->data();
+                    $foto_old = $this->db
+                        ->where('conf_char', $file)
+                        ->get('system_config')->row()->conf_value;
                     $query = $this->db
                         ->where('conf_char', $file)
                         ->update('system_config', ['conf_value' => $data_foto['file_name']]);
                     if ($query) {
-                        $pesan[$file]['status'] = 1;
-                        $pesan[$file]['pesan'] = "Berhasil disimpan";
+                        if (!empty($data_foto['file_name'])) {
+                            if (file_exists($config['upload_path'] . $foto_old)) {
+                                unlink($config['upload_path'] . $foto_old);
+                            }
+                            $pesan[$file]['status'] = 1;
+                            $pesan[$file]['pesan'] = "Berhasil disimpan";
+                        } else {
+                            $pesan[$file]['status'] = 0;
+                            $pesan[$file] = "Gagal update data";
+                        }
                     } else {
                         $pesan[$file]['status'] = 0;
-                        $pesan[$file] = "Gagal disimpan";
+                        $pesan[$file] = "Gagal update data";
                     }
                 }
             }

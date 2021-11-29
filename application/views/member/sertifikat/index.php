@@ -28,6 +28,13 @@
                   </div>
                </div>
             <?php endforeach; ?>
+            <div class="row">
+               <div class="col-md-12">
+                  <nav aria-label="Page navigation example">
+                     <?php echo $pagination ?>
+                  </nav>
+               </div>
+            </div>
          <?php else : ?>
             <div class="row">
                <div class="col-md-4 text-center">

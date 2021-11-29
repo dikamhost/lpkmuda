@@ -19,7 +19,7 @@
       foreach ($slider as $s) : ?>
          <div class="carousel-item <?= $act ?>">
             <a href="<?= $s['sld_link'] ?>">
-               <img src="<?= STORAGEPATH ?>/slider/<?= $s['sld_image'] ?>" class="d-block w-100" alt="<?= $s['sld_nama'] ?>">
+               <img loading="lazy" src="<?= STORAGEPATH ?>/slider/<?= $s['sld_image'] ?>" class="d-block w-100" alt="<?= $s['sld_nama'] ?>">
             </a>
          </div>
       <?php $act = '';
@@ -40,7 +40,7 @@
          <h2 class="mb-4">Mitra Kami</h2>
          <div class="owl-carousel" id="carousel-mitra">
             <?php foreach ($mitra as $m) : ?>
-               <div class="mx-3"><a href="<?= $m['mtr_link'] ?>" target="_blank"><img src="<?= STORAGEPATH ?>/mitra/<?= $m['mtr_image'] ?>" alt="<?= $m['mtr_nama'] ?>"></a></div>
+               <div class="mx-3"><a href="<?= $m['mtr_link'] ?>" target="_blank"><img loading="lazy" src="<?= STORAGEPATH ?>/mitra/<?= $m['mtr_image'] ?>" alt="<?= $m['mtr_nama'] ?>"></a></div>
             <?php endforeach; ?>
          </div>
       </div>
@@ -60,7 +60,7 @@
             ?>
                <div class="col-md-3 col-sm-12 mb-3">
                   <div class="card text-center" style="width: 100%;">
-                     <img src="<?= STORAGEPATH . $kjr_image ?>" class="card-img-top" alt="<?= $d['kjr_nama'] ?>" style="max-height: 11.8rem;">
+                     <img loading="lazy" src="<?= STORAGEPATH . $kjr_image ?>" class="card-img-top" alt="<?= $d['kjr_nama'] ?>" style="max-height: 11.8rem;">
                      <div class="card-body text-left">
                         <h5 class="card-title text-left"><?= $d['kjr_nama'] ?></h5>
                         <p class="card-text text-left">Rp. <?= number_format($d['kjr_harga'], 2, ',', '.') ?></p>
@@ -90,7 +90,7 @@
             ?>
                <div class="col-md-3 col-sm-12 mb-3">
                   <div class="card text-center" style="width: 100%;">
-                     <img src="<?= STORAGEPATH . $kjr_image ?>" class="card-img-top" alt="<?= $d['kjr_nama'] ?>" style="max-height: 11.8rem;">
+                     <img loading="lazy" src="<?= STORAGEPATH . $kjr_image ?>" class="card-img-top" alt="<?= $d['kjr_nama'] ?>" style="max-height: 11.8rem;">
                      <div class="card-body text-left">
                         <h5 class="card-title text-left"><?= $d['kjr_nama'] ?></h5>
                         <p class="card-text text-left">Rp. <?= number_format($d['kjr_harga'], 2, ',', '.') ?></p>
@@ -112,7 +112,7 @@
       <div class="container">
          <div class="row">
             <div class="col-md-6 col-12">
-               <img src="<?= STORAGEPATH ?>/tentang/<?= $tentang['tnt_image'] ?>" class="mb-3" style="width: 100%;" alt="Tentang">
+               <img loading="lazy" src="<?= STORAGEPATH ?>/tentang/<?= $tentang['tnt_image'] ?>" class="mb-3" style="width: 100%;" alt="Tentang">
             </div>
             <div class="col-md-6 col-12 text-left">
                <?= $tentang['tnt_isi'] ?>
@@ -135,7 +135,7 @@
                ?>
                   <div class="col-md-4 col-sm-12">
                      <div class="card text-center w-100 pt-3" style="min-width: 17rem;">
-                        <img src="<?= STORAGEPATH . $tst_image ?>" style="max-width: 40%; height: 100px; margin-left: 31%;" class="card-img-top rounded-circle mb-2" alt="<?= $testi['tst_nama'] ?>">
+                        <img loading="lazy" src="<?= STORAGEPATH . $tst_image ?>" style="max-width: 40%; height: 100px; margin-left: 31%;" class="card-img-top rounded-circle mb-2" alt="<?= $testi['tst_nama'] ?>">
                         <b class="mt-2"><?= $testi['tst_nama'] ?></b>
                         <div class="card-body mt-0 pt-2">
                            <p class="card-text"><?= $testi['tst_isi'] ?></p>
@@ -148,7 +148,7 @@
       </div>
    </div>
 </section>
-<div class="jumbotron jumbotron-fluid mb-0" style="background: #001500 url(<?= base_url(); ?>storage/img/footer-bg.png) no-repeat right top">
+<div class="jumbotron jumbotron-fluid mb-0" style="display: none;background: #001500 url(<?= base_url(); ?>assets/images/footer-bg.png) no-repeat right top">
    <div class="container">
       <p class="h3 mb-3" style="color: white; font-weight: 700;">Di LPK Muda Al-hidayah</p>
       <p class="h4" style="color: white; font-weight: 300;">Dapatkan akses materi kursus lebih mendalam dengan harga terjangkau, dibawakan oleh para praktisi terbaik, bersertifikat, dan tanpa periode kursus!</p>

@@ -47,7 +47,11 @@
                </div>
                <div class="row py-md-5 py-3">
                   <div class="col-md-3">
-                     <button onclick="gabung('<?= (isset($_SESSION['system_members']['mbr_id'])) ? $_SESSION['system_members']['mbr_id'] : '' ?>','<?= $kejuruan['kjr_id'] ?>')" class="btn btn-success btn-block"><i class="fas fa-book-reader"></i> Gabung Kelas</button>
+                     <?php if ($kelas) : ?>
+                        <a href="<?= base_url('belajar/' . $kejuruan['kjr_slug']) ?>" class="btn btn-success btn-block"><i class="fas fa-book-reader"></i> Lanjut Belajar</a>
+                     <?php else : ?>
+                        <button onclick="gabung('<?= (isset($_SESSION['system_members']['mbr_id'])) ? $_SESSION['system_members']['mbr_id'] : '' ?>','<?= $kejuruan['kjr_id'] ?>')" class="btn btn-success btn-block"><i class="fas fa-book-reader"></i> Gabung Kelas</button>
+                     <?php endif; ?>
                   </div>
                </div>
             </div>

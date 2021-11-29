@@ -149,7 +149,9 @@ class Kilat extends CI_Controller
             $foto = $this->db->select('kjr_image')->where('kjr_id', $_POST['kjr_id'])->get('app_kejuruan')->row()->kjr_image;
             if (!empty($data_foto['file_name'])) {
                if (!empty($foto)) {
-                  unlink($config['upload_path'] . $foto);
+                  if (file_exists($config['upload_path'] . $foto)) {
+                     unlink($config['upload_path'] . $foto);
+                  }
                }
             }
             $this->db->where('kjr_id', $_POST['kjr_id']);

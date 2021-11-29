@@ -80,9 +80,7 @@
       language: table_language(),
       "autoWidth": false,
       "ordering": true, // Set true agar bisa di sorting
-      "order": [
-        [2, 'asc']
-      ], // Default sortingnya berdasarkan kolom / field ke 0 (paling pertama)
+      "order": [], // Default sortingnya berdasarkan kolom / field ke 0 (paling pertama)
       "ajax": {
         "url": BASE_URL + "admin/kategori/view_data", // URL file untuk proses select datanya
         "type": "POST"
@@ -104,8 +102,6 @@
           "data": "ktg_id",
           "render": function(data, type, row, meta) {
             var btn = ``;
-            btn += `<button type="button" class="mr-1 btn btn-info btn-sm to-up" data-id="` + row.ktg_id + `" data-order="` + row.ktg_order + `" title="Pindah Ke Atas"><i class="fas fa-arrow-up"></i></button>`;
-            btn += `<button type="button" class="mr-1 btn btn-info btn-sm to-down" data-id="` + row.ktg_id + `" data-order="` + row.ktg_order + `" title="Pindah Ke Bawah"><i class="fas fa-arrow-down"></i></button>`;
             if (row.ktg_locked == 1) {
               btn += `<button type="button" class="mr-1 btn btn-secondary btn-sm lock"  data-id="` + row.ktg_id + `" data-lock="` + row.ktg_locked + `" title="Aktifkan"><i class="fas fa-lock"></i></button>`
             } else {

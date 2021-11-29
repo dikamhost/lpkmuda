@@ -16,6 +16,23 @@ if (!function_exists("getApp")) {
     }
 }
 
+if (!function_exists("cekStart")) {
+    function cekStart($start = null)
+    {
+        $load = false;
+        if (isset($start)) {
+            if (is_numeric($start)) {
+                $load = true;
+            } else {
+                $load = false;
+            }
+        } else {
+            $load = true;
+        }
+        return $load;
+    }
+}
+
 if (!function_exists("generatePasswordHash")) {
     function generatePasswordHash($string)
     {

@@ -9,6 +9,7 @@
     <!-- Favicons -->
     <link href="<?= STORAGEPATH ?>/system/<?= getApp('app_icons')['conf_value'] ?>" rel="icon">
     <link href="<?= STORAGEPATH ?>/system/<?= getApp('app_icons')['conf_value'] ?>" rel="apple-touch-icon">
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->

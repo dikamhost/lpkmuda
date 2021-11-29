@@ -178,7 +178,9 @@ class Slider extends CI_Controller
             $foto = $this->db->select('sld_image')->where('sld_id', $_POST['sld_id'])->get('app_slider')->row()->sld_image;
             if (!empty($data_foto['file_name'])) {
                if (!empty($foto)) {
-                  unlink($config['upload_path'] . $foto);
+                  if (file_exists($config['upload_path'] . $foto)) {
+                     unlink($config['upload_path'] . $foto);
+                  }
                }
             }
             $this->db->where('sld_id', $_POST['sld_id']);

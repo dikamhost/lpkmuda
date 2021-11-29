@@ -28,3 +28,17 @@ Folder Storage :
 - thumbs
 - user
 
+PR :
+- (fix) admin app_transfer
+- (fix) pagination member kelas
+- (fix) pagination member sertifikat
+- (fix) sertifikat logo qrcode dinamis
+- (fix) pagination artikel
+- (fix) artikel tags
+- (fix) google analytic
+- produk - source code
+- verifikasi email
+- materi querstion
+- login/register oauth google
+
+

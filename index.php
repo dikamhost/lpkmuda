@@ -294,10 +294,14 @@ define("GENERATOR",	[
 	"app_materi"			=> "NvKt",
 	"app_kelas"				=> "KINV",
 	"app_modul"				=> "mGed",
+	"app_transfer"			=> "dEat",
 	"app_sertifikat"		=> "SC",
+	"blog_artikel"			=> "UXvM",
+	"blog_kategori"		=> "jaFC",
+	"blog_tags"				=> "OjnsH",
 ]);
 // define('FONTPATH', "D:\storage\laragon\www\project\lpkmuda\assets\sertifikat");
-define('FONTPATH', FCPATH."assets/sertifikat/");
+define('FONTPATH', FCPATH . "assets/sertifikat/");
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

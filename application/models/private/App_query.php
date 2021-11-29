@@ -188,4 +188,82 @@ class App_query extends CI_Model
 		}
 		return $result;
 	}
+
+	// contoh
+	public function contoh() {
+		$_query["search"]	= ["v_kecamatan, v_jenis"];
+		$_query["table"]	= "statistik_produksi_pertanian a";
+		$_query["select"]	= "
+									a.id as v_id, b.kecamatan as v_kecamatan,
+									a.tanam as v_tanam, a.panen as v_panen, a.tahun as v_tahun,
+									c.tanaman as v_jenis, a.produksi as v_produksi, a.provitas as v_provitas";
+		$_query["join"]		= [
+			[
+				"join"	=> "config_kecamatan b",
+				"on"	=> "b.id = a.id_kecamatan",
+				"type"	=> "left"
+			],
+			[
+				"join"	=> "kategori_jenis_tanaman c",
+				"on"	=> "c.id = a.id_tanaman",
+				"type"	=> "left"
+			]
+		];
+		$_query["order"]		= ["v_provitas"=>"DESC"];
+		if (isset($_POST["order"])) {
+			$_query["order"]		= [null,"v_kecamatan","v_jenis","v_tanam","v_panen","v_produksi","v_provitas"];
+		}
+		$_where = "";
+		if (isset($_SESSION["data_tahun"]) && $_SESSION["data_tahun"] != "") {
+			if ($_where == "") {
+				$_where = "a.tahun = ".$_SESSION["data_tahun"];
+			} else {
+				$_where .= " and a.tahun = ".$_SESSION["data_tahun"];
+			}
+		}
+		if (isset($_SESSION["data_kecamatan"]) && $_SESSION["data_kecamatan"] != "") {
+			if ($_where == "") {
+				$_where = "a.id_kecamatan = \"".$_SESSION["data_kecamatan"]."\"";
+			} else {
+				$_where .= " and a.id_kecamatan = \"".$_SESSION["data_kecamatan"]."\"";
+			}
+		}
+		if (isset($_SESSION["data_jenis"]) && $_SESSION["data_jenis"] != "") {
+			if ($_where == "") {
+				$_where = "a.id_tanaman = \"".$_SESSION["data_jenis"]."\"";
+			} else {
+				$_where .= " and a.id_tanaman = \"".$_SESSION["data_jenis"]."\"";
+			}
+		}
+		$_query["where"]	= $_where;
+		$__query			= $this->app_query->getData_table($_query)->result_array();
+		$nomor				= $_POST["start"];
+		$output				= [];
+		$count_data			= 0;
+		if ($__query) {
+			foreach ($__query as $key) {
+				$nomor++;
+				$out		= [];
+				$out["v_nomor"]		= $nomor;
+				$out["v_tahun"]		= $key["v_tahun"];
+				$out["v_kecamatan"]	= $key["v_kecamatan"];
+				$out["v_jenis"]		= $key["v_jenis"];
+				$out["v_tanam"]		= number_format($key["v_tanam"],0,",",".");
+				$out["v_panen"]		= number_format($key["v_panen"],0,",",".");
+				$out["v_produksi"]	= number_format($key["v_produksi"],0,",",".");
+				$out["v_provitas"]	= number_format($key["v_provitas"],0,",",".");
+				$out["v_aksi"]		= "
+										<a class=\"btn btn-danger btn-sm button-update\" data-id=\"".$key["v_id"]."\">
+											<i class=\"fas fa-edit\"></i>Edit
+										</a>";
+				$output[]	= $out;
+			}
+			$count_data	= $this->app_query->getData_count($_query);
+		}
+		$return["draw"]				= $_POST["draw"];
+		$return["recordsTotal"]		= count($output);
+		$return["recordsFiltered"]	= $count_data;
+		$return["data"]				= $output;
+		echo json_encode($return, true);
+	}
 }

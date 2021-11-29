@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-bottom: 1px solid black;">
    <div class="container">
       <a class="navbar-brand" href="<?= base_url() ?>">
          <img src="<?= STORAGEPATH ?>/system/<?= getApp('app_brand')['conf_value'] ?>" alt="<?= getApp('app_names')['conf_value'] ?>" width="200">
@@ -15,7 +15,7 @@
                <a class="nav-link" href="<?= base_url('kilat') ?>"><i class="fas fa-address-card"></i> Gratis</a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="<?= base_url() ?>#tentang"><i class="fas fa-archive"></i> Tentang</a>
+               <a class="nav-link" href="<?= base_url('artikel') ?>"><i class="fas fa-clipboard-list"></i> Artikel</a>
             </li>
             <li class="nav-item">
                <a class="nav-link" href="<?= base_url() ?>#kontak"><i class="fas fa-user-circle"></i> Kontak</a>

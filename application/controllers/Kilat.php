@@ -14,9 +14,14 @@ class Kilat extends CI_Controller
    {
       $start = $this->uri->segment(3);
       $data['title']       = 'Kilat';
-      $data['page']        = 'depan/kilat/index';
-      $data['data']        = $this->M_kilat->getKilat($start)['app_kejuruan'];
-      $data['pagination']  = $this->M_kilat->getKilat()['pagination'];
+      $load = cekStart($start);
+      if ($load) {
+         $data['page']        = 'depan/kilat/index';
+         $data['data']        = $this->M_kilat->getKilat($start)['app_kejuruan'];
+         $data['pagination']  = $this->M_kilat->getKilat()['pagination'];
+      } else {
+         $data['page']        = 'belajar/error/404';
+      }
       $this->load->view('depan/template', $data);
    }
 
